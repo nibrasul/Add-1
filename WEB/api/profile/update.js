@@ -94,3 +94,12 @@ async function handler(req, res) {
 
 // Wrap with JWT Authentication filter
 export default withAuth(handler);
+
+// Increase Vercel Serverless Function body parsing limit
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '10mb'
+    }
+  }
+};
