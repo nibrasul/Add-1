@@ -511,15 +511,56 @@ export default function App() {
     reader.readAsDataURL(file);
   };
 
-  // Profile Editor Save handler (hits SQLite REST endpoint)
+  const compressBase64Image = (base64Str, maxSize = 250) => {
+    return new Promise((resolve) => {
+      if (!base64Str || !base64Str.startsWith('data:image/') || base64Str.length < 100000) {
+        resolve(base64Str);
+        return;
+      }
+      
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxSize) {
+            height *= maxSize / width;
+            width = maxSize;
+          }
+        } else {
+          if (height > maxSize) {
+            width *= maxSize / height;
+            height = maxSize;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', 0.75));
+      };
+      img.onerror = () => {
+        resolve(base64Str);
+      };
+      img.src = base64Str;
+    });
+  };
+
+  // Profile Editor Save handler (hits Vercel Serverless Endpoint)
   const handleSaveProfile = async (e) => {
     e.preventDefault();
     if (!currentUser) return;
     
+    // Auto-compress avatar on the fly if it is a large legacy base64 image
+    const compressedAvatar = await compressBase64Image(editAvatar);
+    
     const updatedProfile = {
       ...activeProfile,
       name: editName,
-      avatar: editAvatar,
+      avatar: compressedAvatar,
       tagline: editTagline,
       bio: editBio,
       isPremium: editIsPremium,
