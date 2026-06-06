@@ -11,7 +11,7 @@ if (!username) {
 if (!username) {
   const emailParam = params.get("email");
   if (emailParam) {
-    username = emailParam.split('@')[0];
+    username = emailParam;
   }
 }
 if (!username) {

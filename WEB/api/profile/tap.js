@@ -49,8 +49,20 @@ export default async function handler(req, res) {
   }
 
   try {
-    // 1. Fetch current profile
-    const profileRes = await dbQuery('SELECT id, profile_data FROM profiles WHERE LOWER(username) = LOWER($1)', [username.trim()]);
+    // 1. Fetch current profile by username or email
+    let profileRes;
+    if (username.includes('@')) {
+      profileRes = await dbQuery(
+        'SELECT p.id, p.profile_data FROM profiles p JOIN users u ON p.user_id = u.id WHERE LOWER(u.email) = LOWER($1)',
+        [username.trim()]
+      );
+    } else {
+      profileRes = await dbQuery(
+        'SELECT id, profile_data FROM profiles WHERE LOWER(username) = LOWER($1)',
+        [username.trim()]
+      );
+    }
+
     if (profileRes.length === 0) {
       return res.status(404).json({ error: 'Profile not found.' });
     }
