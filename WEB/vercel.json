@@ -4,6 +4,7 @@
     { "source": "/api/auth/register", "destination": "/api/auth/register.js" },
     { "source": "/api/auth/login", "destination": "/api/auth/login.js" },
     { "source": "/api/profile/update", "destination": "/api/profile/update.js" },
+    { "source": "/api/profile/upload", "destination": "/api/profile/upload.js" },
     { "source": "/api/profile/:username/click", "destination": "/api/profile/click.js?username=:username" },
     { "source": "/api/profile/:username/tap", "destination": "/api/profile/tap.js?username=:username" },
     { "source": "/api/profile/:username", "destination": "/api/profile/get.js?username=:username" },

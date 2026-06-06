@@ -52,6 +52,10 @@ async function handler(req, res) {
     return res.status(400).json({ error: 'Profile data is required for updates.' });
   }
 
+  if (profileData.avatar && profileData.avatar.startsWith('data:')) {
+    return res.status(400).json({ error: 'Base64 images are not allowed. Please upload images first.' });
+  }
+
   try {
     const userId = req.user.id;
     const username = req.user.username;

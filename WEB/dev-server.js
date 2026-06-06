@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 import registerHandler from './api/auth/register.js';
 import loginHandler from './api/auth/login.js';
 import updateProfileHandler from './api/profile/update.js';
+import uploadProfileHandler from './api/profile/upload.js';
 import clickHandler from './api/profile/click.js';
 import tapHandler from './api/profile/tap.js';
 import getProfileHandler from './api/profile/get.js';
@@ -41,6 +42,7 @@ function adapt(handler) {
 app.post('/api/auth/register', adapt(registerHandler));
 app.post('/api/auth/login', adapt(loginHandler));
 app.put('/api/profile/update', adapt(updateProfileHandler));
+app.post('/api/profile/upload', adapt(uploadProfileHandler));
 
 // click mapping (with username)
 app.post('/api/profile/:username/click', (req, res, next) => {

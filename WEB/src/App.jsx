@@ -554,13 +554,53 @@ export default function App() {
     e.preventDefault();
     if (!currentUser) return;
     
-    // Auto-compress avatar on the fly if it is a large legacy base64 image
+    // 1. Auto-compress avatar on the fly if it is a large legacy base64 image
     const compressedAvatar = await compressBase64Image(editAvatar);
+    let finalAvatarUrl = compressedAvatar;
+
+    // 2. If avatar is base64 string, upload it to obtain CDN/local static URL
+    if (compressedAvatar && compressedAvatar.startsWith('data:')) {
+      try {
+        console.log("[Tapfolio] Uploading avatar image... base64 size:", compressedAvatar.length, "chars");
+        const mimeMatch = compressedAvatar.match(/^data:([^;]+);/);
+        const contentType = mimeMatch ? mimeMatch[1] : 'image/jpeg';
+        const fileExt = contentType.split('/')[1] || 'jpg';
+        const filename = `${currentUser.username}-avatar-${Date.now()}.${fileExt}`;
+
+        const uploadRes = await fetch("/api/profile/upload", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            filename,
+            contentType,
+            base64Data: compressedAvatar
+          })
+        });
+
+        if (uploadRes.ok) {
+          const uploadData = await uploadRes.json();
+          finalAvatarUrl = uploadData.url;
+          setEditAvatar(finalAvatarUrl); // Update local state
+          console.log("[Tapfolio] Avatar uploaded successfully. URL:", finalAvatarUrl);
+        } else {
+          const uploadErr = await uploadRes.text();
+          console.error("Failed to upload avatar:", uploadErr);
+          alert("Failed to upload profile image. Changes not saved.");
+          return;
+        }
+      } catch (err) {
+        console.error("Avatar upload network error:", err);
+        alert("Network error occurred during image upload.");
+        return;
+      }
+    }
     
     const updatedProfile = {
       ...activeProfile,
       name: editName,
-      avatar: compressedAvatar,
+      avatar: finalAvatarUrl,
       tagline: editTagline,
       bio: editBio,
       isPremium: editIsPremium,
@@ -609,6 +649,11 @@ export default function App() {
         signature: editName
       }
     };
+
+    // 3. Log payload size before saving
+    const payloadStr = JSON.stringify({ profileData: updatedProfile });
+    const payloadSizeKB = (payloadStr.length / 1024).toFixed(2);
+    console.log(`[Tapfolio] Profile save payload size: ${payloadSizeKB} KB (string length: ${payloadStr.length})`);
     
     try {
       const session = localStorage.getItem("pertap_session") || sessionStorage.getItem("pertap_session");
