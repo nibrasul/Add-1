@@ -468,13 +468,45 @@ export default function App() {
     setCurrentUser(null);
   };
 
-  // FileReader Avatar Upload Handler
+  // FileReader Avatar Upload Handler with Client-side Canvas Compression
   const handleAvatarUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
     const reader = new FileReader();
-    reader.onloadend = () => {
-      setEditAvatar(reader.result);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const MAX_SIZE = 250; // Max size for profile avatar
+        let width = img.width;
+        let height = img.height;
+
+        // Calculate proportional dimensions
+        if (width > height) {
+          if (width > MAX_SIZE) {
+            height *= MAX_SIZE / width;
+            width = MAX_SIZE;
+          }
+        } else {
+          if (height > MAX_SIZE) {
+            width *= MAX_SIZE / height;
+            height = MAX_SIZE;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        
+        // Draw image resized onto canvas
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // Export as compressed JPEG (under 50KB)
+        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.75);
+        setEditAvatar(compressedDataUrl);
+      };
+      img.src = event.target.result;
     };
     reader.readAsDataURL(file);
   };
