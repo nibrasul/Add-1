@@ -45199,7 +45199,7 @@ $1(a){var s=null,r=A.b5(A.eL(B.c.m6(a.f,"#","0xFF"),s)),q=A.a3(5,B.e.n()>>>16&25
 return A.c1(s,A.d3(A.b([A.cY(A.b([A.av(a.b,s,s,s,s,A.aD().$2$color$fontWeight(B.e,B.L),s,s),A.av(a.c,s,s,s,s,A.aD().$2$color$fontSize(B.c1,12),s,s)],n),B.aj,B.w,B.y),A.pC(B.HG,r,s,20)],n),B.C,B.cp,B.y,0),B.n,s,s,new A.bB(q,s,o,p,s,s,B.S),s,s,B.oh,B.dJ,s,s,s)},
 $S:305}
 A.a05.prototype={
-ghK(){return"https://tapfolio.me"},
+ghK(){return"https://www.tapfolio.me"},
 Bk(){var s=0,r=A.J(t.H),q=this,p,o
 var $async$Bk=A.F(function(a,b){if(a===1)return A.G(b,r)
 for(;;)switch(s){case 0:s=2

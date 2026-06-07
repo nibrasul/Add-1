@@ -18,7 +18,7 @@ class ApiService {
 
   String get baseUrl {
     if (isProduction) {
-      return 'https://tapfolio.me';
+      return 'https://www.tapfolio.me';
     }
 
     if (kIsWeb) {
@@ -58,7 +58,8 @@ class ApiService {
   }
 
   void _updateCookie(http.Response response) async {
-    final rawCookie = response.headers['set-cookie'];
+    String? rawCookie = response.headers['set-cookie'];
+    rawCookie ??= response.headers['Set-Cookie'];
     if (rawCookie != null) {
       // Find the token in 'pertap_jwt=xxxxx;'
       final regex = RegExp(r'pertap_jwt=([^;]+)');
