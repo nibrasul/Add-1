@@ -4,16 +4,7 @@ import '../models/profile.dart';
 import '../services/api_service.dart';
 
 class ConnectionPermissionSheet extends StatefulWidget {
-  final int connectionId;
-  final String requesterName;
-  final VoidCallback onDone;
-
-  const ConnectionPermissionSheet({
-    Key? key,
-    required this.connectionId,
-    required this.requesterName,
-    required this.onDone,
-  }) : super(key: key);
+  const ConnectionPermissionSheet({Key? key}) : super(key: key);
 
   @override
   State<ConnectionPermissionSheet> createState() => _ConnectionPermissionSheetState();
@@ -27,7 +18,30 @@ class _ConnectionPermissionSheetState extends State<ConnectionPermissionSheet> {
   bool _sharePhone = false;
   bool _shareWhatsapp = true;
   bool _shareLocation = false;
+  bool _loading = true;
   bool _saving = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSettings();
+  }
+
+  Future<void> _loadSettings() async {
+    final settings = await _api.getSharingSettings();
+    if (settings != null && mounted) {
+      setState(() {
+        _shareName = settings.shareName;
+        _shareEmail = settings.shareEmail;
+        _sharePhone = settings.sharePhone;
+        _shareWhatsapp = settings.shareWhatsapp;
+        _shareLocation = settings.shareLocation;
+        _loading = false;
+      });
+    } else if (mounted) {
+      setState(() => _loading = false);
+    }
+  }
 
   Future<void> _confirm() async {
     setState(() => _saving = true);
@@ -38,10 +52,19 @@ class _ConnectionPermissionSheetState extends State<ConnectionPermissionSheet> {
       shareWhatsapp: _shareWhatsapp,
       shareLocation: _shareLocation,
     );
-    await _api.acceptRequest(widget.connectionId, perms);
+    final result = await _api.updateSharingSettings(perms);
     if (mounted) {
-      Navigator.pop(context);
-      widget.onDone();
+      setState(() => _saving = false);
+      if (result['success'] == true) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Sharing settings saved!'), backgroundColor: Color(0xFF10b981)),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(result['error'] ?? 'Save failed.'), backgroundColor: Colors.redAccent),
+        );
+      }
     }
   }
 
@@ -58,75 +81,80 @@ class _ConnectionPermissionSheetState extends State<ConnectionPermissionSheet> {
         top: 24,
         bottom: MediaQuery.of(context).viewInsets.bottom + 24,
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Container(
-              width: 40, height: 4,
-              decoration: BoxDecoration(
-                color: Colors.white24,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-          ),
-          const SizedBox(height: 24),
-
-          Text(
-            'Share with ${widget.requesterName}',
-            style: GoogleFonts.outfit(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'Choose what contact info to share when you connect.',
-            style: GoogleFonts.outfit(fontSize: 13, color: Colors.white54),
-          ),
-
-          const SizedBox(height: 24),
-          const Divider(color: Colors.white12),
-
-          _buildToggle('Name', 'Your display name', Icons.person_outline, _shareName,
-              (v) => setState(() => _shareName = v)),
-          _buildToggle('Email', 'Your account email address', Icons.email_outlined, _shareEmail,
-              (v) => setState(() => _shareEmail = v)),
-          _buildToggle('Phone', 'Your phone number', Icons.phone_outlined, _sharePhone,
-              (v) => setState(() => _sharePhone = v)),
-          _buildToggle('WhatsApp', 'Your WhatsApp link', Icons.chat_outlined, _shareWhatsapp,
-              (v) => setState(() => _shareWhatsapp = v)),
-          _buildToggle('Location', 'Your location tag', Icons.location_on_outlined, _shareLocation,
-              (v) => setState(() => _shareLocation = v)),
-
-          const SizedBox(height: 24),
-
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: _saving ? null : _confirm,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF6366f1),
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                elevation: 0,
-              ),
-              child: _saving
-                  ? const SizedBox(
-                      width: 20, height: 20,
-                      child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
-                    )
-                  : Text(
-                      'Confirm & Connect',
-                      style: GoogleFonts.outfit(fontWeight: FontWeight.w700, fontSize: 16),
+      child: _loading
+          ? const SizedBox(
+              height: 200,
+              child: Center(child: CircularProgressIndicator(color: Colors.indigoAccent)),
+            )
+          : Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Container(
+                    width: 40, height: 4,
+                    decoration: BoxDecoration(
+                      color: Colors.white24,
+                      borderRadius: BorderRadius.circular(2),
                     ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+
+                Text(
+                  'Global Sharing Settings',
+                  style: GoogleFonts.outfit(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Choose what details are visible to your connections.',
+                  style: GoogleFonts.outfit(fontSize: 13, color: Colors.white54),
+                ),
+
+                const SizedBox(height: 24),
+                const Divider(color: Colors.white12),
+
+                _buildToggle('Name', 'Your display name', Icons.person_outline, _shareName,
+                    (v) => setState(() => _shareName = v)),
+                _buildToggle('Email', 'Your account email address', Icons.email_outlined, _shareEmail,
+                    (v) => setState(() => _shareEmail = v)),
+                _buildToggle('Phone', 'Your phone number', Icons.phone_outlined, _sharePhone,
+                    (v) => setState(() => _sharePhone = v)),
+                _buildToggle('WhatsApp', 'Your WhatsApp link', Icons.chat_outlined, _shareWhatsapp,
+                    (v) => setState(() => _shareWhatsapp = v)),
+                _buildToggle('Location', 'Your location tag', Icons.location_on_outlined, _shareLocation,
+                    (v) => setState(() => _shareLocation = v)),
+
+                const SizedBox(height: 24),
+
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: _saving ? null : _confirm,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF6366f1),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                      elevation: 0,
+                    ),
+                    child: _saving
+                        ? const SizedBox(
+                            width: 20, height: 20,
+                            child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                          )
+                        : Text(
+                            'Save Settings',
+                            style: GoogleFonts.outfit(fontWeight: FontWeight.w700, fontSize: 16),
+                          ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -145,7 +173,7 @@ class _ConnectionPermissionSheetState extends State<ConnectionPermissionSheet> {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: const Color(0xFF6366f1).withValues(alpha: 0.12),
+              color: const Color(0xFF6366f1).withOpacity(0.12),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(icon, color: Colors.indigoAccent, size: 20),

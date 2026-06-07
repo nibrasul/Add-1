@@ -63,7 +63,7 @@ class _ConnectScreenState extends State<ConnectScreen>
 
   Future<void> _sendRequest() async {
     setState(() { _sending = true; _error = null; });
-    final result = await _api.sendConnectionRequest(widget.username, via: 'link');
+    final result = await _api.sendConnectionRequest(widget.username, via: 'nfc');
     if (!mounted) return;
     if (result['success'] == true) {
       setState(() { _sending = false; _success = true; _connectionStatus = 'pending'; });
@@ -123,6 +123,7 @@ class _ConnectScreenState extends State<ConnectScreen>
     final profile = _profileData!;
     final name = profile['name'] as String? ?? '';
     final tagline = profile['tagline'] as String? ?? '';
+    final location = profile['location'] as String? ?? '';
     final avatar = profile['avatar'] as String? ?? '';
     final bio = profile['bio'] as String? ?? '';
     final tags = (profile['tags'] as List? ?? []).map((t) => Tag.fromJson(t)).toList();
@@ -180,6 +181,21 @@ class _ConnectScreenState extends State<ConnectScreen>
               tagline,
               textAlign: TextAlign.center,
               style: GoogleFonts.outfit(fontSize: 14, color: Colors.white54, fontStyle: FontStyle.italic),
+            ),
+          ],
+
+          if (location.isNotEmpty) ...[
+            const SizedBox(height: 6),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.location_on, size: 14, color: Colors.white54),
+                const SizedBox(width: 4),
+                Text(
+                  location,
+                  style: GoogleFonts.outfit(fontSize: 13, color: Colors.white54),
+                ),
+              ],
             ),
           ],
 

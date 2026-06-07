@@ -3,13 +3,6 @@ import { cookies } from 'next/headers';
 import prisma from '@/lib/db';
 import { verifyJWT } from '@/lib/auth';
 
-function slugify(text: string) {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '');
-}
-
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -20,18 +13,10 @@ export async function GET(request: Request) {
     }
 
     // Resolve username -> profile
-    const spaceSeparated = username.replace(/-/g, ' ');
-    let profile = await prisma.profile.findFirst({
-      where: { name: { equals: spaceSeparated, mode: 'insensitive' } },
+    const profile = await prisma.profile.findUnique({
+      where: { username },
       include: { user: { select: { id: true, email: true } }, tags: true, socials: true },
     });
-
-    if (!profile) {
-      const allProfiles = await prisma.profile.findMany({
-        include: { user: { select: { id: true, email: true } }, tags: true, socials: true },
-      });
-      profile = allProfiles.find(p => slugify(p.name) === username) || null;
-    }
 
     if (!profile) {
       return NextResponse.json({ error: 'User not found.' }, { status: 404 });

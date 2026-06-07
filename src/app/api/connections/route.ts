@@ -22,12 +22,12 @@ export async function GET() {
       },
       orderBy: { updatedAt: 'desc' },
       include: {
-        permission: true,
         requester: {
           include: {
             profile: {
               include: { tags: true, socials: true },
             },
+            sharingSettings: true,
           },
         },
         receiver: {
@@ -35,6 +35,7 @@ export async function GET() {
             profile: {
               include: { tags: true, socials: true },
             },
+            sharingSettings: true,
           },
         },
       },
@@ -45,7 +46,7 @@ export async function GET() {
       const isRequester = conn.requesterId === payload.userId;
       const otherUser = isRequester ? conn.receiver : conn.requester;
       const otherProfile = otherUser.profile;
-      const perm = conn.permission;
+      const otherSettings = otherUser.sharingSettings;
 
       return {
         id: conn.id,
@@ -53,24 +54,23 @@ export async function GET() {
         connectedAt: conn.updatedAt,
         other: {
           userId: otherUser.id,
-          email: perm?.shareEmail ? otherUser.email : null,
-          name: perm?.shareName ? (otherProfile?.name ?? otherUser.name) : null,
+          email: otherSettings?.shareEmail ? otherUser.email : null,
+          name: otherSettings?.shareName ? (otherProfile?.name ?? otherUser.name) : null,
           avatar: otherProfile?.avatar ?? '/profile_avatar.png',
           tagline: otherProfile?.tagline ?? '',
-          phone: perm?.sharePhone ? (otherProfile?.phone ?? null) : null,
-          whatsapp: perm?.shareWhatsapp
-            ? otherProfile?.socials.find(s => s.platform === 'WhatsApp')?.url ?? null
-            : null,
+          phone: otherSettings?.sharePhone ? (otherProfile?.phone ?? null) : null,
+          whatsapp: otherSettings?.shareWhatsapp ? (otherProfile?.whatsapp ?? null) : null,
+          location: otherSettings?.shareLocation ? (otherProfile?.location ?? null) : null,
           tags: otherProfile?.tags ?? [],
           profileId: otherProfile?.id ?? null,
         },
-        permissions: perm
+        permissions: otherSettings
           ? {
-              shareName: perm.shareName,
-              shareEmail: perm.shareEmail,
-              sharePhone: perm.sharePhone,
-              shareWhatsapp: perm.shareWhatsapp,
-              shareLocation: perm.shareLocation,
+              shareName: otherSettings.shareName,
+              shareEmail: otherSettings.shareEmail,
+              sharePhone: otherSettings.sharePhone,
+              shareWhatsapp: otherSettings.shareWhatsapp,
+              shareLocation: otherSettings.shareLocation,
             }
           : null,
       };

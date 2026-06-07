@@ -17,7 +17,15 @@ export default async function PublicProfile({ params }: { params: Promise<{ user
     });
   }
 
-  // 2. Fallback to finding by slugified name
+  // 2. Try finding by username field directly
+  if (!profile) {
+    profile = await prisma.profile.findUnique({
+      where: { username: userId.toLowerCase().trim() },
+      include: { tags: true, socials: true }
+    });
+  }
+
+  // 3. Fallback to finding by slugified name
   if (!profile) {
     const slugify = (text: string) =>
       text

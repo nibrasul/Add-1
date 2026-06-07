@@ -31,6 +31,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final _nameController = TextEditingController();
   final _taglineController = TextEditingController();
   final _bioController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _whatsappController = TextEditingController();
+  final _locationController = TextEditingController();
 
   // Tags states
   final _tagController = TextEditingController();
@@ -185,6 +188,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _nameController.dispose();
     _taglineController.dispose();
     _bioController.dispose();
+    _phoneController.dispose();
+    _whatsappController.dispose();
+    _locationController.dispose();
     _tagController.dispose();
     _socialHandleController.dispose();
     _socialUrlController.dispose();
@@ -207,6 +213,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         _nameController.text = _profile!.name;
         _taglineController.text = _profile!.tagline;
         _bioController.text = _profile!.bio;
+        _phoneController.text = _profile!.phone ?? '';
+        _whatsappController.text = _profile!.whatsapp ?? '';
+        _locationController.text = _profile!.location ?? '';
       });
     }
 
@@ -268,6 +277,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
       'name': _nameController.text.trim(),
       'tagline': _taglineController.text.trim(),
       'bio': _bioController.text.trim(),
+      'phone': _phoneController.text.trim(),
+      'whatsapp': _whatsappController.text.trim(),
+      'location': _locationController.text.trim(),
     });
 
     setState(() {
@@ -644,14 +656,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       );
     }
 
-    String slugify(String text) {
-      return text
-          .toLowerCase()
-          .trim()
-          .replaceAll(RegExp(r'[^a-z0-9]+'), '-')
-          .replaceAll(RegExp(r'(^-|-$)'), '');
-    }
-    final publicLink = '${_apiService.baseUrl}/connect/${slugify(_profile!.name)}';
+    final publicLink = '${_apiService.baseUrl}/connect/${_profile!.username}';
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
@@ -927,6 +932,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               _buildTextField(_nameController, 'Full Name'),
               _buildTextField(_taglineController, 'Card Tagline'),
               _buildTextField(_bioController, 'Professional Bio', maxLines: 4),
+              _buildTextField(_phoneController, 'Phone Number'),
+              _buildTextField(_whatsappController, 'WhatsApp Handle/Number'),
+              _buildTextField(_locationController, 'Location (e.g. Kerala, India)'),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(

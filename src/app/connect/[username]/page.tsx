@@ -2,13 +2,6 @@ import { notFound } from 'next/navigation';
 import prisma from '@/lib/db';
 import styles from './page.module.css';
 
-function slugify(text: string) {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '');
-}
-
 export default async function ConnectRedirectPage({
   params,
 }: {
@@ -18,19 +11,10 @@ export default async function ConnectRedirectPage({
 
   // Resolve username → profile
   const slug = username.toLowerCase().trim();
-  const spaceSeparated = slug.replace(/-/g, ' ');
-
-  let profile = await prisma.profile.findFirst({
-    where: { name: { equals: spaceSeparated, mode: 'insensitive' } },
+  const profile = await prisma.profile.findUnique({
+    where: { username: slug },
     select: { id: true, name: true, avatar: true, tagline: true, userId: true },
   });
-
-  if (!profile) {
-    const all = await prisma.profile.findMany({
-      select: { id: true, name: true, avatar: true, tagline: true, userId: true },
-    });
-    profile = all.find(p => slugify(p.name) === slug) || null;
-  }
 
   if (!profile) {
     return notFound();

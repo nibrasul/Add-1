@@ -34,10 +34,14 @@ class Profile {
   final int id;
   final int userId;
   final String name;
+  final String username;
   final String tagline;
   final String avatar;
   final bool isOnline;
   final String bio;
+  final String? phone;
+  final String? whatsapp;
+  final String? location;
   final String diamonds;
   final bool isPremium;
   final int tapCount;
@@ -48,10 +52,14 @@ class Profile {
     required this.id,
     required this.userId,
     required this.name,
+    required this.username,
     required this.tagline,
     required this.avatar,
     required this.isOnline,
     required this.bio,
+    this.phone,
+    this.whatsapp,
+    this.location,
     required this.diamonds,
     required this.isPremium,
     required this.tapCount,
@@ -67,10 +75,14 @@ class Profile {
       id: json['id'],
       userId: json['userId'],
       name: json['name'] ?? '',
+      username: json['username'] ?? '',
       tagline: json['tagline'] ?? '',
       avatar: json['avatar'] ?? '',
       isOnline: json['isOnline'] ?? false,
       bio: json['bio'] ?? '',
+      phone: json['phone'],
+      whatsapp: json['whatsapp'],
+      location: json['location'],
       diamonds: json['diamonds'] ?? '0',
       isPremium: json['isPremium'] ?? false,
       tapCount: json['tapCount'] ?? 0,
@@ -84,10 +96,14 @@ class Profile {
       'id': id,
       'userId': userId,
       'name': name,
+      'username': username,
       'tagline': tagline,
       'avatar': avatar,
       'isOnline': isOnline,
       'bio': bio,
+      'phone': phone,
+      'whatsapp': whatsapp,
+      'location': location,
       'diamonds': diamonds,
       'isPremium': isPremium,
       'tapCount': tapCount,
@@ -262,6 +278,7 @@ class ConnectionOther {
   final String? email;
   final String? phone;
   final String? whatsapp;
+  final String? location;
   final int? profileId;
   final List<Tag> tags;
 
@@ -273,6 +290,7 @@ class ConnectionOther {
     this.email,
     this.phone,
     this.whatsapp,
+    this.location,
     this.profileId,
     required this.tags,
   });
@@ -287,6 +305,7 @@ class ConnectionOther {
       email: json['email'],
       phone: json['phone'],
       whatsapp: json['whatsapp'],
+      location: json['location'],
       profileId: json['profileId'],
       tags: tagsList.map((t) => Tag.fromJson(t)).toList(),
     );

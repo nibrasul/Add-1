@@ -51,17 +51,19 @@ class _ConnectionsScreenState extends State<ConnectionsScreen>
     });
   }
 
-  void _showPermissionSheet(PendingRequest req) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) => ConnectionPermissionSheet(
-        connectionId: req.id,
-        requesterName: req.requesterName,
-        onDone: _refresh,
-      ),
-    );
+  Future<void> _accept(PendingRequest req) async {
+    final result = await _api.acceptRequest(req.id);
+    if (!mounted) return;
+    if (result['success'] == true) {
+      _refresh();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Connection accepted!'), backgroundColor: Color(0xFF10b981)),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(result['error'] ?? 'Failed to accept request.'), backgroundColor: Colors.redAccent),
+      );
+    }
   }
 
   Future<void> _reject(PendingRequest req) async {
@@ -73,6 +75,15 @@ class _ConnectionsScreenState extends State<ConnectionsScreen>
         const SnackBar(content: Text('Request rejected.'), backgroundColor: Color(0xFF374151)),
       );
     }
+  }
+
+  void _showGlobalSharingSettings() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => const ConnectionPermissionSheet(),
+    );
   }
 
   @override
@@ -105,6 +116,10 @@ class _ConnectionsScreenState extends State<ConnectionsScreen>
           ],
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.settings, color: Colors.white70),
+            onPressed: _showGlobalSharingSettings,
+          ),
           IconButton(
             icon: const Icon(Icons.refresh, color: Colors.white70),
             onPressed: _refresh,
@@ -203,7 +218,7 @@ class _ConnectionsScreenState extends State<ConnectionsScreen>
                   SizedBox(
                     width: 80,
                     child: ElevatedButton(
-                      onPressed: () => _showPermissionSheet(req),
+                      onPressed: () => _accept(req),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF6366f1),
                         foregroundColor: Colors.white,
@@ -341,10 +356,12 @@ class _ConnectionsScreenState extends State<ConnectionsScreen>
                 style: GoogleFonts.outfit(color: Colors.white54, fontSize: 13)),
             const SizedBox(height: 20),
             const Divider(color: Colors.white12),
-            if (other.email != null) _detailRow(Icons.email_outlined, other.email!),
-            if (other.phone != null) _detailRow(Icons.phone_outlined, other.phone!),
-            if (other.whatsapp != null)
+            if (other.email != null && other.email!.isNotEmpty) _detailRow(Icons.email_outlined, other.email!),
+            if (other.phone != null && other.phone!.isNotEmpty) _detailRow(Icons.phone_outlined, other.phone!),
+            if (other.whatsapp != null && other.whatsapp!.isNotEmpty)
               _detailRow(Icons.chat_outlined, other.whatsapp!, isLink: true),
+            if (other.location != null && other.location!.isNotEmpty)
+              _detailRow(Icons.location_on_outlined, other.location!),
             const SizedBox(height: 16),
           ],
         ),

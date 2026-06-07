@@ -3,13 +3,6 @@ import { cookies } from 'next/headers';
 import prisma from '@/lib/db';
 import { verifyJWT } from '@/lib/auth';
 
-function slugify(text: string) {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '');
-}
-
 export async function POST(request: Request) {
   try {
     const cookieStore = await cookies();
@@ -19,24 +12,18 @@ export async function POST(request: Request) {
     const payload = await verifyJWT(token);
     if (!payload) return NextResponse.json({ error: 'Invalid token.' }, { status: 401 });
 
-    const { receiverUsername, via = 'link' } = await request.json();
+    const { receiverUsername, via = 'nfc' } = await request.json();
     if (!receiverUsername) {
       return NextResponse.json({ error: 'receiverUsername is required.' }, { status: 400 });
     }
 
     // Resolve receiver username → User
     const slug = receiverUsername.toLowerCase().trim();
-    const spaceSeparated = slug.replace(/-/g, ' ');
 
-    let receiverProfile = await prisma.profile.findFirst({
-      where: { name: { equals: spaceSeparated, mode: 'insensitive' } },
+    const receiverProfile = await prisma.profile.findUnique({
+      where: { username: slug },
       include: { user: true },
     });
-
-    if (!receiverProfile) {
-      const all = await prisma.profile.findMany({ include: { user: true } });
-      receiverProfile = all.find(p => slugify(p.name) === slug) || null;
-    }
 
     if (!receiverProfile) {
       return NextResponse.json({ error: 'User not found.' }, { status: 404 });

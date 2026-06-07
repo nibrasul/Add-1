@@ -14,16 +14,8 @@ export async function POST(request: Request) {
 
     const {
       connectionId,
-      permissions = {},
     }: {
       connectionId: number;
-      permissions?: {
-        shareName?: boolean;
-        shareEmail?: boolean;
-        sharePhone?: boolean;
-        shareWhatsapp?: boolean;
-        shareLocation?: boolean;
-      };
     } = await request.json();
 
     if (!connectionId) {
@@ -51,29 +43,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: `Connection is already ${connection.status}.` }, { status: 400 });
     }
 
-    // Update status and create/update permissions
+    // Update status
     await prisma.connection.update({
       where: { id: connectionId },
       data: { status: 'accepted' },
-    });
-
-    await prisma.connectionPermission.upsert({
-      where: { connectionId },
-      create: {
-        connectionId,
-        shareName: permissions.shareName ?? true,
-        shareEmail: permissions.shareEmail ?? true,
-        sharePhone: permissions.sharePhone ?? false,
-        shareWhatsapp: permissions.shareWhatsapp ?? true,
-        shareLocation: permissions.shareLocation ?? false,
-      },
-      update: {
-        shareName: permissions.shareName ?? true,
-        shareEmail: permissions.shareEmail ?? true,
-        sharePhone: permissions.sharePhone ?? false,
-        shareWhatsapp: permissions.shareWhatsapp ?? true,
-        shareLocation: permissions.shareLocation ?? false,
-      },
     });
 
     // Log history events for both parties

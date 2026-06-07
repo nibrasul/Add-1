@@ -386,7 +386,7 @@ class ApiService {
     return null;
   }
 
-  Future<Map<String, dynamic>> sendConnectionRequest(String receiverUsername, {String via = 'link'}) async {
+  Future<Map<String, dynamic>> sendConnectionRequest(String receiverUsername, {String via = 'nfc'}) async {
     try {
       final url = Uri.parse('$baseUrl/api/connections/request');
       final response = await _sendRequest(
@@ -421,13 +421,13 @@ class ApiService {
     return [];
   }
 
-  Future<Map<String, dynamic>> acceptRequest(int connectionId, ConnectionPermissionData permissions) async {
+  Future<Map<String, dynamic>> acceptRequest(int connectionId) async {
     try {
       final url = Uri.parse('$baseUrl/api/connections/accept');
       final response = await _sendRequest(
         'POST',
         url,
-        body: jsonEncode({'connectionId': connectionId, 'permissions': permissions.toJson()}),
+        body: jsonEncode({'connectionId': connectionId}),
       );
       final data = jsonDecode(response.body);
       if (response.statusCode == 200 && data['success'] == true) {
@@ -472,5 +472,39 @@ class ApiService {
       debugPrint('getConnections error: $e');
     }
     return [];
+  }
+
+  Future<ConnectionPermissionData?> getSharingSettings() async {
+    try {
+      final url = Uri.parse('$baseUrl/api/connections/settings');
+      final response = await _sendRequest('GET', url);
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data['success'] == true && data['settings'] != null) {
+          return ConnectionPermissionData.fromJson(data['settings']);
+        }
+      }
+    } catch (e) {
+      debugPrint('getSharingSettings error: $e');
+    }
+    return null;
+  }
+
+  Future<Map<String, dynamic>> updateSharingSettings(ConnectionPermissionData settings) async {
+    try {
+      final url = Uri.parse('$baseUrl/api/connections/settings');
+      final response = await _sendRequest(
+        'PUT',
+        url,
+        body: jsonEncode(settings.toJson()),
+      );
+      final data = jsonDecode(response.body);
+      if (response.statusCode == 200 && data['success'] == true) {
+        return {'success': true, 'settings': ConnectionPermissionData.fromJson(data['settings'])};
+      }
+      return {'success': false, 'error': data['error'] ?? 'Update failed'};
+    } catch (e) {
+      return {'success': false, 'error': e.toString()};
+    }
   }
 }
