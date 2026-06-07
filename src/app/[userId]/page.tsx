@@ -76,7 +76,7 @@ export default async function PublicProfile({ params }: { params: Promise<{ user
 
         {/* 2. CONNECT WITH ME BUTTON */}
         <div className={styles.actionContainer}>
-          <ConnectButton profileId={profile.id} initialTapCount={profile.tapCount} />
+          <ConnectButton profileId={profile.id} initialTapCount={profile.tapCount} username={profile.username} />
         </div>
 
         {/* 3. DYNAMIC QUOTE BAR */}
