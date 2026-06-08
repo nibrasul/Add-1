@@ -105,3 +105,43 @@ export async function GET() {
     return NextResponse.json({ error: 'Something went wrong.' }, { status: 500 });
   }
 }
+
+export async function POST() {
+  try {
+    const admin = await verifyAdmin();
+    if (!admin) {
+      return NextResponse.json({ error: 'Unauthorized.' }, { status: 401 });
+    }
+
+    const users = await prisma.user.findMany({
+      select: { id: true },
+    });
+
+    let reconciledCount = 0;
+    for (const user of users) {
+      const actualCount = await prisma.connection.count({
+        where: {
+          status: 'accepted',
+          OR: [
+            { requesterId: user.id },
+            { receiverId: user.id },
+          ],
+        },
+      });
+
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { connectionCount: actualCount },
+      });
+      reconciledCount++;
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: `Reconciled connection counts for ${reconciledCount} users.`,
+    });
+  } catch (error: any) {
+    console.error('Connection reconciliation error:', error);
+    return NextResponse.json({ error: 'Something went wrong.' }, { status: 500 });
+  }
+}

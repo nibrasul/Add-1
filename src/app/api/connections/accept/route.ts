@@ -50,14 +50,27 @@ export async function POST(request: Request) {
     }
 
     if (connection.status !== 'pending') {
+      if (connection.status === 'accepted') {
+        return NextResponse.json({ success: true, message: 'Already accepted.' });
+      }
       return NextResponse.json({ error: `Connection is already ${connection.status}.` }, { status: 400 });
     }
 
-    // Update status
-    await prisma.connection.update({
-      where: { id: connectionId },
-      data: { status: 'accepted' },
-    });
+    // Update status and increment user connectionCount atomic counters in a transaction
+    await prisma.$transaction([
+      prisma.connection.update({
+        where: { id: connectionId },
+        data: { status: 'accepted' },
+      }),
+      prisma.user.update({
+        where: { id: connection.requesterId },
+        data: { connectionCount: { increment: 1 } },
+      }),
+      prisma.user.update({
+        where: { id: connection.receiverId },
+        data: { connectionCount: { increment: 1 } },
+      }),
+    ]);
 
     // Create default connection visibilities copying current global settings
     const requesterSocialIds = connection.requester.profile?.socials.map((s) => s.id) ?? [];

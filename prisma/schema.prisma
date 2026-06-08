@@ -11,6 +11,7 @@ model User {
   name                String
   email               String           @unique
   passwordHash        String
+  connectionCount     Int              @default(0)
   profile             Profile?
   sharingSettings     SharingSettings?
   createdAt           DateTime         @default(now())

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import prisma from '@/lib/db';
 import { verifyJWT } from '@/lib/auth';
+import { rateLimit } from '@/lib/rate-limit';
 
 export async function POST(request: Request) {
   try {
@@ -11,6 +12,11 @@ export async function POST(request: Request) {
 
     const payload = await verifyJWT(token);
     if (!payload) return NextResponse.json({ error: 'Invalid token.' }, { status: 401 });
+
+    // Rate limit per requester: Max 10 requests per minute
+    if (!rateLimit(`req:${payload.userId}`, 10)) {
+      return NextResponse.json({ error: 'Rate limit exceeded. Please wait a minute before trying again.' }, { status: 429 });
+    }
 
     const { receiverUsername, via = 'nfc' } = await request.json();
     if (!receiverUsername) {
@@ -27,6 +33,11 @@ export async function POST(request: Request) {
 
     if (!receiverProfile) {
       return NextResponse.json({ error: 'User not found.' }, { status: 404 });
+    }
+
+    // Rate limit per target user: Max 20 connection requests from any source per minute (anti-spam)
+    if (!rateLimit(`target:${receiverProfile.userId}`, 20)) {
+      return NextResponse.json({ error: 'This user is receiving too many requests. Please try again later.' }, { status: 429 });
     }
 
     if (receiverProfile.userId === payload.userId) {

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,17 +25,37 @@ class _ConnectionsScreenState extends State<ConnectionsScreen>
   bool _loadingPending = true;
   bool _loadingConnections = true;
 
+  Timer? _refreshTimer;
+
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _refresh();
+
+    // Start background sync polling every 15 seconds for real-time request status
+    _refreshTimer = Timer.periodic(const Duration(seconds: 15), (_) {
+      _silentRefresh();
+    });
   }
 
   @override
   void dispose() {
+    _refreshTimer?.cancel();
     _tabController.dispose();
     super.dispose();
+  }
+
+  Future<void> _silentRefresh() async {
+    final results = await Future.wait([
+      _api.getPendingRequests(),
+      _api.getConnections(),
+    ]);
+    if (!mounted) return;
+    setState(() {
+      _pending = results[0] as List<PendingRequest>;
+      _connections = results[1] as List<Connection>;
+    });
   }
 
   Future<void> _refresh() async {

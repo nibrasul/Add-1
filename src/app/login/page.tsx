@@ -72,9 +72,39 @@ function LoginFormContent() {
           throw new Error(data.error || 'Authentication failed');
         }
 
-        // Redirect URL from query param
-        const redirect = searchParams.get('redirect') || '/dashboard';
-        router.push(redirect);
+        // 3-layer intent redirection priority resolution
+        const redirectParam = searchParams.get('redirect');
+        const intentParam = searchParams.get('intent');
+        
+        let targetRedirect = '/dashboard';
+
+        if (redirectParam) {
+          targetRedirect = redirectParam;
+        } else if (intentParam === 'connect') {
+          // If intent=connect was passed in URL, check session/local storage for target username
+          const sessionIntent = sessionStorage.getItem('pendingIntent');
+          const localIntent = localStorage.getItem('pendingIntent');
+          const intentVal = sessionIntent || localIntent;
+          if (intentVal && intentVal.startsWith('connect:')) {
+            const targetUser = intentVal.split(':')[1];
+            targetRedirect = `/connect/${targetUser}`;
+          }
+        } else {
+          // General storage fallback
+          const sessionIntent = sessionStorage.getItem('pendingIntent');
+          const localIntent = localStorage.getItem('pendingIntent');
+          const intentVal = sessionIntent || localIntent;
+          if (intentVal && intentVal.startsWith('connect:')) {
+            const targetUser = intentVal.split(':')[1];
+            targetRedirect = `/connect/${targetUser}`;
+          }
+        }
+
+        // Clean up session and local storage to prevent stale redirects
+        sessionStorage.removeItem('pendingIntent');
+        localStorage.removeItem('pendingIntent');
+
+        router.push(targetRedirect);
         router.refresh();
       }
     } catch (err: any) {

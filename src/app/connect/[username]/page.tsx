@@ -30,24 +30,6 @@ export default async function ConnectRedirectPage({
     loggedInUser = await verifyJWT(token);
   }
 
-  // Check connection status if caller is logged in
-  let connectionStatus: string | null = null;
-  if (loggedInUser && loggedInUser.userId !== profile.userId) {
-    const conn = await prisma.connection.findFirst({
-      where: {
-        OR: [
-          { requesterId: loggedInUser.userId, receiverId: profile.userId },
-          { requesterId: profile.userId, receiverId: loggedInUser.userId },
-        ],
-      },
-    });
-    if (conn) {
-      connectionStatus = conn.status;
-    }
-  } else if (loggedInUser && loggedInUser.userId === profile.userId) {
-    connectionStatus = 'accepted'; // Cannot connect with self
-  }
-
   return (
     <>
       <title>{`Connect with ${profile.name} — Tapfolio`}</title>
@@ -65,7 +47,6 @@ export default async function ConnectRedirectPage({
           tagline: profile.tagline ?? '',
         }}
         isLoggedIn={loggedInUser !== null}
-        initialConnectionStatus={connectionStatus}
       />
     </>
   );
