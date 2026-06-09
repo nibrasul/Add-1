@@ -4,6 +4,12 @@ import prisma from '@/lib/db';
 import { verifyJWT } from '@/lib/auth';
 
 export async function PUT(request: Request) {
+  console.log('[ONBOARDING] Incoming PUT request');
+  const rawBody = await request.text();
+  console.log('[ONBOARDING] Raw body:', rawBody);
+  const parsedRequest = request.clone();
+  const jsonBody = JSON.parse(rawBody);
+
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get('pertap_jwt')?.value;
@@ -17,7 +23,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: 'Invalid token.' }, { status: 401 });
     }
 
-    const { username, tagline, bio, avatar, socials, sharingSettings } = await request.json();
+    const { username, tagline, bio, avatar, socials, sharingSettings } = jsonBody;
 
     const existingProfile = await prisma.profile.findUnique({
       where: { userId: tokenPayload.userId }
@@ -133,6 +139,7 @@ export async function PUT(request: Request) {
 
     console.log(`[ONBOARDING] Successfully committed onboarding details for userId=${tokenPayload.userId}`);
 
+    console.log('[ONBOARDING] Success response ready');
     return NextResponse.json({
       success: true,
       message: 'Onboarding settings committed successfully!',
