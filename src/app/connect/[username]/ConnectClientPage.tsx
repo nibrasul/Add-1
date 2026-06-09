@@ -240,7 +240,7 @@ export default function ConnectClientPage({
             </>
           )}
 
-          <a href={`/${username}`} className={styles.viewProfileLink}>
+          <a href={`/@${username}`} className={styles.viewProfileLink}>
             View web profile
           </a>
         </div>

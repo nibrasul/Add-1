@@ -5,6 +5,7 @@ import { verifyJWT } from './lib/auth';
 export async function proxy(request: NextRequest) {
   const token = request.cookies.get('pertap_jwt')?.value;
   const { pathname } = request.nextUrl;
+  console.log(`[PROXY] Intercepted path: ${pathname}`);
 
   // 1. Handle dynamic /@username path rewriting
   if (pathname.startsWith('/@')) {
@@ -47,10 +48,6 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/dashboard/:path*', 
-    '/history/:path*', 
-    '/leaderboard/:path*', 
-    '/login', 
-    '/@:path*'
+    '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
   ],
 };
