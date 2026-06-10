@@ -68,6 +68,7 @@ export default function ConnectClientPage({
 }: ConnectClientPageProps) {
   const router = useRouter();
   const [profileData, setProfileData] = useState<any>(null);
+  const [isLightMode, setIsLightMode] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
   
   const [loadingProfile, setLoadingProfile] = useState(true);
@@ -206,7 +207,7 @@ export default function ConnectClientPage({
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper} ${isLightMode ? styles.lightMode : ''}`}>
       {/* Dynamic Background Effects */}
       <div className={styles.backgroundGlowBlob1}></div>
       <div className={styles.backgroundGlowBlob2}></div>
@@ -337,6 +338,24 @@ export default function ConnectClientPage({
         </div>
 
         {error && <p className={styles.error}>{error}</p>}
+
+        <button 
+          onClick={() => setIsLightMode(!isLightMode)} 
+          className={styles.themeToggleBtn}
+          aria-label="Toggle light and dark mode"
+        >
+          {isLightMode ? (
+            <>
+              <span className={styles.toggleIcon}>🌙</span>
+              <span>Dark Mode</span>
+            </>
+          ) : (
+            <>
+              <span className={styles.toggleIcon}>☀️</span>
+              <span>Light Mode</span>
+            </>
+          )}
+        </button>
       </div>
     </div>
   );

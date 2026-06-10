@@ -700,3 +700,191 @@
     font-size: 1.6rem;
   }
 }
+
+.themeToggleBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding: 0.55rem 1.2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  color: #9ca3af;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 2;
+  align-self: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.themeToggleBtn:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+}
+
+.toggleIcon {
+  font-size: 0.95rem;
+}
+
+/* ==================== LIGHT MODE OVERRIDES ==================== */
+.lightMode {
+  background: #f8fafc !important;
+}
+
+.lightMode .gridOverlay {
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px) !important;
+}
+
+.lightMode .backgroundGlowBlob1 {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.06) 0%, rgba(99, 102, 241, 0) 70%) !important;
+}
+
+.lightMode .backgroundGlowBlob2 {
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.06) 0%, rgba(168, 85, 247, 0) 70%) !important;
+}
+
+.lightMode .card {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border-color: rgba(0, 0, 0, 0.07) !important;
+  box-shadow: 
+    0 30px 60px rgba(15, 23, 42, 0.08), 
+    0 0 100px rgba(99, 102, 241, 0.02),
+    0 0 0 1px rgba(255, 255, 255, 0.6) inset !important;
+}
+
+@media (max-width: 480px) {
+  .lightMode .card {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
+
+.lightMode .logoMark {
+  color: #0f172a !important;
+}
+
+.lightMode .name {
+  color: #0f172a !important;
+}
+
+.lightMode .tagline {
+  color: #475569 !important;
+}
+
+.lightMode .bio {
+  color: #334155 !important;
+}
+
+.lightMode .roleTag {
+  background: rgba(99, 102, 241, 0.06) !important;
+  border-color: rgba(99, 102, 241, 0.15) !important;
+  color: #4f46e5 !important;
+}
+
+.lightMode .locationTag {
+  background: rgba(16, 185, 129, 0.06) !important;
+  border-color: rgba(16, 185, 129, 0.15) !important;
+  color: #059669 !important;
+}
+
+.lightMode .statsRow {
+  background: rgba(0, 0, 0, 0.015) !important;
+  border-color: rgba(0, 0, 0, 0.04) !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.lightMode .statVal {
+  color: #0f172a !important;
+}
+
+.lightMode .statLabel {
+  color: #64748b !important;
+}
+
+.lightMode .statBoxDivider {
+  background: rgba(0, 0, 0, 0.06) !important;
+}
+
+.lightMode .sectionTitle {
+  color: #64748b !important;
+  border-bottom-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+.lightMode .socialCard {
+  background: rgba(0, 0, 0, 0.012) !important;
+  border-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+.lightMode .socialCard:hover {
+  background: rgba(0, 0, 0, 0.025) !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04) !important;
+}
+
+.lightMode .platform {
+  color: #0f172a !important;
+}
+
+.lightMode .handle {
+  color: #64748b !important;
+}
+
+.lightMode .arrowIcon {
+  color: #94a3b8 !important;
+}
+
+.lightMode .socialCard:hover .arrowIcon {
+  color: #0f172a !important;
+}
+
+.lightMode .viewProfileLink {
+  background: rgba(0, 0, 0, 0.015) !important;
+  color: #475569 !important;
+  border-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.lightMode .viewProfileLink:hover {
+  background: rgba(0, 0, 0, 0.035) !important;
+  color: #0f172a !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+.lightMode .themeToggleBtn {
+  background: rgba(0, 0, 0, 0.02) !important;
+  border-color: rgba(0, 0, 0, 0.06) !important;
+  color: #475569 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+.lightMode .themeToggleBtn:hover {
+  background: rgba(0, 0, 0, 0.04) !important;
+  color: #0f172a !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.lightMode .statusBadgeLoading {
+  background: rgba(0, 0, 0, 0.02) !important;
+  color: #475569 !important;
+  border-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.lightMode .statusBadgeLoading .miniSpinner {
+  border-top-color: #475569 !important;
+  border-left-color: rgba(0, 0, 0, 0.05) !important;
+  border-right-color: rgba(0, 0, 0, 0.05) !important;
+  border-bottom-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.lightMode .skeletonLine,
+.lightMode .skeletonLineShort,
+.lightMode .skeletonChip {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.02) 25%, rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0.02) 75%) !important;
+  background-size: 200% 100% !important;
+}
