@@ -1,0 +1,190 @@
+/* ─── Overlay ─── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ─── Modal Card ─── */
+.modal {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 1.75rem 1.5rem;
+  width: 92%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.25s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-color-scheme: dark) {
+  .modal {
+    background: #1e293b;
+    color: #f8fafc;
+  }
+}
+
+.title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin: -0.25rem 0 0;
+  text-align: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .subtitle {
+    color: #94a3b8;
+  }
+}
+
+/* ─── Canvas ─── */
+.canvasContainer {
+  border-radius: 16px;
+  overflow: hidden;
+  background: #0f172a;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.canvas {
+  display: block;
+  touch-action: none;
+}
+
+/* ─── Zoom Slider Row ─── */
+.zoomRow {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  padding: 0 0.5rem;
+  color: #6b7280;
+}
+
+@media (prefers-color-scheme: dark) {
+  .zoomRow {
+    color: #94a3b8;
+  }
+}
+
+.zoomSlider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 4px;
+  background: #e5e7eb;
+  outline: none;
+  cursor: pointer;
+}
+
+@media (prefers-color-scheme: dark) {
+  .zoomSlider {
+    background: #334155;
+  }
+}
+
+.zoomSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #014BAA;
+  border: 2px solid #ffffff;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.zoomSlider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #014BAA;
+  border: 2px solid #ffffff;
+  cursor: pointer;
+}
+
+/* ─── Action Buttons ─── */
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.cancelBtn {
+  flex: 1;
+  padding: 0.75rem;
+  border-radius: 12px;
+  border: 1.5px solid #e5e7eb;
+  background: transparent;
+  color: #374151;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancelBtn:hover {
+  background: #f3f4f6;
+}
+
+@media (prefers-color-scheme: dark) {
+  .cancelBtn {
+    border-color: #475569;
+    color: #cbd5e1;
+  }
+  .cancelBtn:hover {
+    background: #334155;
+  }
+}
+
+.cropBtn {
+  flex: 1;
+  padding: 0.75rem;
+  border-radius: 12px;
+  border: none;
+  background: #014BAA;
+  color: #ffffff;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cropBtn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.cropBtn:active {
+  transform: translateY(0);
+}

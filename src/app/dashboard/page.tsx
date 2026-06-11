@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import LoadingScreen from '@/components/LoadingScreen';
+import ImageCropModal from '@/components/ImageCropModal';
 import styles from './page.module.css';
 
 interface Tag {
@@ -156,6 +157,10 @@ export default function Dashboard() {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
 
+  // Image Crop Modal State
+  const [cropImageSrc, setCropImageSrc] = useState<string | null>(null);
+  const [showCropModal, setShowCropModal] = useState(false);
+
   const fetchProfile = async () => {
     try {
       const res = await fetch('/api/profile');
@@ -214,12 +219,29 @@ export default function Dashboard() {
     fetchSharingSettings();
   }, []);
 
-  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Step 1: User picks a file → show crop modal
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    const reader = new FileReader();
+    reader.onload = () => {
+      setCropImageSrc(reader.result as string);
+      setShowCropModal(true);
+    };
+    reader.readAsDataURL(file);
+
+    // Reset so the same file can be re-selected
+    e.target.value = '';
+  };
+
+  // Step 2: Crop complete → upload cropped blob
+  const handleCropDone = async (croppedBlob: Blob) => {
+    setShowCropModal(false);
+    setCropImageSrc(null);
+
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', croppedBlob, 'avatar.png');
 
     setSaving(true);
     try {
@@ -230,7 +252,7 @@ export default function Dashboard() {
       const data = await res.json();
       if (data.success) {
         setAvatar(data.url);
-        setSuccess('Avatar uploaded successfully! Save your profile to finalize.');
+        setSuccess('Avatar cropped & uploaded! Save your profile to finalize.');
         setTimeout(() => setSuccess(''), 3000);
       } else {
         throw new Error(data.error || 'Upload failed');
@@ -241,6 +263,11 @@ export default function Dashboard() {
     } finally {
       setSaving(false);
     }
+  };
+
+  const handleCropCancel = () => {
+    setShowCropModal(false);
+    setCropImageSrc(null);
   };
 
   const handleAddTag = (e: React.FormEvent) => {
@@ -945,6 +972,15 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* ─── Image Crop Modal ─── */}
+      {showCropModal && cropImageSrc && (
+        <ImageCropModal
+          imageSrc={cropImageSrc}
+          onCropDone={handleCropDone}
+          onCancel={handleCropCancel}
+        />
       )}
     </div>
   );
