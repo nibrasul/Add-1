@@ -1,90 +1,65 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
 
-/* ─── CSS Variables ─────────────────────────────────────────────────────── */
-:root {
+/* ── Page Wrapper ── */
+.wrapper {
   --brand: #014BAA;
-  --bg: #f0f4fa;
-  --surface: #ffffff;
+  --brand-light: #e8f0fe;
+  --bg: #f0f2f5;
+  --card-bg: #ffffff;
   --text-primary: #111827;
   --text-secondary: #6b7280;
   --border: #e5e7eb;
-  --tile-bg: #f7f9fc;
-}
+  --tile-bg: #f5f7fa;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --brand: #3b82f6;
-    --bg: #0f172a;
-    --surface: #1e293b;
-    --text-primary: #f1f5f9;
-    --text-secondary: #94a3b8;
-    --border: #334155;
-    --tile-bg: #1e293b;
-  }
-}
-
-/* ─── Page Wrapper ───────────────────────────────────────────────────────── */
-.wrapper {
   min-height: 100vh;
-  background: var(--bg);
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem 1rem 3rem;
+  background: var(--bg);
+  padding: 1.25rem 1rem 2rem;
   font-family: 'Outfit', sans-serif;
   color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* ─── App Title ──────────────────────────────────────────────────────────── */
-.appTitle {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--brand);
-  letter-spacing: -0.5px;
-  text-align: center;
-  margin-bottom: 1.25rem;
+@media (prefers-color-scheme: dark) {
+  .wrapper {
+    --brand: #4d8ee8;
+    --brand-light: #1a2744;
+    --bg: #0f172a;
+    --card-bg: #1e293b;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --border: #334155;
+    --tile-bg: #253349;
+  }
 }
 
-/* ─── Card ───────────────────────────────────────────────────────────────── */
-.card {
-  background: var(--surface);
-  border-radius: 24px;
+/* ── Main Content Column ── */
+.content {
   width: 100%;
   max-width: 420px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
-  overflow: hidden;
-}
-
-/* ─── Profile Section ────────────────────────────────────────────────────── */
-.profileSection {
-  padding: 1.25rem 1.25rem 1rem;
-  position: relative;
-}
-
-.shareBtn {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: none;
-  border: none;
-  color: var(--text-secondary);
-  cursor: pointer;
-  padding: 0.25rem;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s;
+  flex-direction: column;
+  gap: 0.85rem;
 }
 
-.shareBtn:hover {
-  color: var(--brand);
+/* ── Profile Hero Card (horizontal layout) ── */
+.profileCard {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 1.25rem;
+  position: relative;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-.profileRow {
+.profileCardInner {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 1rem;
 }
 
 .avatar {
@@ -93,101 +68,118 @@
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
+  border: 3px solid var(--brand-light);
 }
 
 .profileInfo {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 2px;
+  min-width: 0;
 }
 
-.name {
-  font-size: 1.4rem;
+.profileName {
+  font-size: 1.35rem;
   font-weight: 800;
   color: var(--text-primary);
-  margin: 0;
   letter-spacing: -0.3px;
+  margin: 0;
   line-height: 1.2;
 }
 
-.tagline {
-  font-size: 0.9rem;
+.profileRoles {
+  font-size: 0.82rem;
   font-weight: 500;
   color: var(--text-secondary);
-  margin: 0;
+  line-height: 1.3;
 }
 
-.location {
+.profileLocation {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.profileLocation svg {
+  color: var(--brand);
+  flex-shrink: 0;
+}
+
+/* Share icon top-right inside profile card */
+.shareBtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--brand);
+  cursor: pointer;
+  padding: 4px;
   display: flex;
   align-items: center;
-  gap: 0.3rem;
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  font-weight: 500;
+  justify-content: center;
+  transition: opacity 0.2s ease;
+}
+.shareBtn:hover {
+  opacity: 0.7;
 }
 
-/* ─── Save Contact Button ────────────────────────────────────────────────── */
+/* ── Save Contact CTA (filled) ── */
 .saveContactBtn {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   width: 100%;
-  padding: 0.875rem;
+  padding: 0.85rem;
+  margin-top: 1rem;
   background: var(--brand);
   border: none;
   color: #ffffff;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  font-family: 'Outfit', sans-serif;
   border-radius: 14px;
   cursor: pointer;
-  transition: opacity 0.2s ease, transform 0.15s ease;
-  font-family: 'Outfit', sans-serif;
+  transition: filter 0.2s ease, transform 0.15s ease;
 }
-
 .saveContactBtn:hover {
-  opacity: 0.9;
+  filter: brightness(1.1);
   transform: translateY(-1px);
 }
-
 .saveContactBtn:active {
   transform: translateY(0);
-  opacity: 1;
 }
 
-/* ─── Divider ────────────────────────────────────────────────────────────── */
-.divider {
-  height: 1px;
-  background: var(--border);
-  margin: 1rem 1.25rem 0;
-}
-
-/* ─── Social Grid ────────────────────────────────────────────────────────── */
+/* ── 3-Column Social Grid ── */
 .socialGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0.6rem;
-  padding: 1rem 1.25rem;
+  gap: 0.65rem;
+  width: 100%;
 }
 
 .socialTile {
-  background: var(--tile-bg);
-  border-radius: 18px;
+  background: var(--card-bg);
+  border-radius: 16px;
   border: 1px solid var(--border);
-  padding: 1rem 0.5rem 0.75rem;
+  padding: 0.85rem 0.4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.4rem;
   text-decoration: none;
   transition: all 0.25s ease;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
 }
-
 .socialTile:hover {
   border-color: var(--brand);
-  background: var(--surface);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(1, 75, 170, 0.1);
+  box-shadow: 0 4px 12px rgba(1,75,170,0.08);
 }
 
 .tileIcon {
@@ -195,6 +187,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 28px;
 }
 
 .tileName {
@@ -202,37 +195,41 @@
   font-weight: 600;
   color: var(--text-primary);
   text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
-/* ─── List Rows (About Me / Contact) ─────────────────────────────────────── */
-.listSection {
-  padding: 0 1.25rem 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+/* ── Accordion Rows (About Me / Contact) ── */
+.accordionRow {
+  background: var(--card-bg);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-.listRow {
+.accordionHeader {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.85rem 1rem;
-  background: var(--tile-bg);
-  border: 1px solid var(--border);
-  border-radius: 14px;
+  padding: 0.9rem 1.1rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  background: none;
+  border: none;
   width: 100%;
-  text-align: left;
   font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  transition: background-color 0.2s ease;
+}
+.accordionHeader:hover {
+  background: var(--tile-bg);
 }
 
-.listRow:hover {
-  border-color: var(--brand);
-  background: var(--surface);
-}
-
-.listRowIcon {
+.accordionIconLeft {
   color: var(--brand);
   display: flex;
   align-items: center;
@@ -240,30 +237,38 @@
   flex-shrink: 0;
 }
 
-.listRowLabel {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--text-primary);
+.accordionLabel {
   flex: 1;
+  text-align: left;
 }
 
-.listRowChevron {
+.accordionChevron {
   color: var(--text-secondary);
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+.accordionChevronOpen {
+  transform: rotate(90deg);
 }
 
-/* Expanded content */
-.expandedContent {
-  margin-top: 0.5rem;
-  padding: 0.75rem 1rem;
-  background: var(--tile-bg);
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  font-size: 0.9rem;
+.accordionContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+  padding: 0 1.1rem;
+}
+.accordionContentOpen {
+  max-height: 300px;
+  padding: 0 1.1rem 1rem;
+}
+
+.accordionBody {
+  font-size: 0.88rem;
+  line-height: 1.65;
   color: var(--text-secondary);
-  line-height: 1.6;
 }
 
 .contactItem {
@@ -271,83 +276,73 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.4rem 0;
-  font-size: 0.88rem;
-  color: var(--text-secondary);
-  text-decoration: none;
-  border-bottom: 1px solid var(--border);
 }
-
-.contactItem:last-child {
-  border-bottom: none;
-}
-
-.contactItem:hover {
+.contactItem a {
   color: var(--brand);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.88rem;
+}
+.contactItem a:hover {
+  text-decoration: underline;
+}
+.contactLabel {
+  font-weight: 600;
+  color: var(--text-primary);
+  min-width: 70px;
+  font-size: 0.85rem;
 }
 
-/* ─── Footer ─────────────────────────────────────────────────────────────── */
+/* ── Footer ── */
 .footer {
-  margin-top: 1.5rem;
+  margin-top: 0.75rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.6rem;
+  padding-bottom: 0.5rem;
 }
 
-.footerPowered {
-  font-size: 0.8rem;
+.footerText {
+  font-size: 0.82rem;
   color: var(--text-secondary);
-  font-weight: 400;
+  font-weight: 500;
 }
-
-.footerPowered strong {
-  color: var(--brand);
+.footerText span {
+  color: var(--text-primary);
   font-weight: 700;
 }
 
 .footerCta {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--brand);
+  gap: 0.6rem;
   text-decoration: none;
-  transition: opacity 0.2s;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 0.88rem;
+  transition: opacity 0.2s ease;
 }
-
 .footerCta:hover {
-  opacity: 0.75;
+  opacity: 0.8;
 }
 
-.footerCtaArrow {
-  width: 28px;
-  height: 28px;
+.footerArrow {
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: var(--brand);
-  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #ffffff;
   flex-shrink: 0;
 }
 
-/* ─── Error ──────────────────────────────────────────────────────────────── */
+/* ── Error ── */
 .error {
   color: #dc2626;
   font-size: 0.85rem;
   text-align: center;
-  padding: 0.5rem 1.25rem;
-}
-
-/* ─── Mobile tweaks ──────────────────────────────────────────────────────── */
-@media (max-width: 480px) {
-  .wrapper {
-    padding: 1.25rem 0.75rem 2rem;
-    background: var(--bg);
-  }
-
-  .card {
-    border-radius: 20px;
-  }
+  margin: 0;
 }
