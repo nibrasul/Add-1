@@ -16,7 +16,7 @@ interface ConnectClientPageProps {
   isLoggedIn: boolean;
 }
 
-// Platform SVG icons (stroke-based, inherits color from parent)
+// Platform SVG icons (stroke-based)
 const getPlatformIcon = (platform: string) => {
   const p = platform.toLowerCase();
 
@@ -163,7 +163,6 @@ export default function ConnectClientPage({
   const [contactOpen, setContactOpen] = useState(false);
 
   useEffect(() => {
-    // Attempt to launch the mobile app if on a mobile device
     const isMobile = /android|iphone|ipad|ipod/i.test(navigator.userAgent);
     if (isMobile) {
       window.location.href = `tapfolio://connect/${username}`;
@@ -186,7 +185,7 @@ export default function ConnectClientPage({
     loadPublicData();
   }, [username]);
 
-  // ── Share ──
+  // ─── Share ───
   const handleShare = async () => {
     if (navigator.share) {
       try {
@@ -208,7 +207,7 @@ export default function ConnectClientPage({
     }
   };
 
-  // ── Save Contact (vCard) ──
+  // ─── Save Contact (vCard) ───
   const handleSaveContact = () => {
     const roleText = profileData?.tags
       ?.filter((t: any) => t.type === 'role')
@@ -249,8 +248,8 @@ END:VCARD`;
     document.body.removeChild(link);
   };
 
-  // ── Data helpers ──
-  const getRolesString = () => {
+  // ─── Data helpers ───
+  const getRolesText = () => {
     const list = profileData?.tags
       ?.filter((t: any) => t.type === 'role')
       .map((t: any) => t.text) || [];
@@ -262,12 +261,11 @@ END:VCARD`;
     const loc = profileData?.tags
       ?.find((t: any) => t.type === 'location')
       ?.text || '';
-    return loc || (profileData ? '' : 'Calicut');
+    if (!loc) return profileData ? '' : 'Calicut';
+    return loc;
   };
 
-  const getBio = () => {
-    return profileData?.bio || (profileData ? '' : 'Photographer, visual storyteller and creative professional helping brands and individuals create memorable experiences.');
-  };
+  const bioText = profileData?.bio || (profileData ? '' : 'Photographer, visual storyteller and creative professional helping brands and individuals create memorable experiences.');
 
   const getSocialsList = () => {
     const list = profileData?.socials || [];
@@ -287,46 +285,57 @@ END:VCARD`;
     return list;
   };
 
-  const getContactItems = () => {
+  const getContactInfoItems = () => {
     const items: { label: string; val: string; href: string }[] = [];
+
     const emailLink = profileData?.socials?.find((s: any) => s.platform.toLowerCase().includes('email'));
     if (emailLink) {
       items.push({ label: 'Email', val: emailLink.handle || emailLink.url.replace('mailto:', ''), href: emailLink.url });
     }
+
     const phoneLink = profileData?.socials?.find((s: any) => s.platform.toLowerCase().includes('phone') || s.platform.toLowerCase().includes('whatsapp'));
     if (phoneLink) {
       const displayVal = phoneLink.handle || phoneLink.url.replace('tel:', '').replace('https://wa.me/', '').split('?')[0];
       items.push({ label: 'Phone', val: displayVal, href: phoneLink.url });
     }
+
     const webLink = profileData?.socials?.find((s: any) => s.platform.toLowerCase().includes('portfolio') || s.platform.toLowerCase().includes('website'));
     if (webLink) {
       items.push({ label: 'Website', val: webLink.handle || webLink.url, href: webLink.url });
     }
+
     const loc = getLocationString();
     if (loc) {
       items.push({ label: 'Location', val: loc, href: `https://maps.google.com/?q=${encodeURIComponent(loc)}` });
     }
+
     return items;
   };
 
-  const rolesString = getRolesString();
+  const rolesText = getRolesText();
   const locationString = getLocationString();
-  const bioText = getBio();
-  const contactItems = getContactItems();
+  const contactItems = getContactInfoItems();
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.content}>
+      <div className={styles.pageContainer}>
 
-        {/* ── Profile Card (horizontal) ── */}
+        {/* ─── Brand Header ─── */}
+        <div className={styles.brandHeader}>
+          <span className={styles.brandLogo}>Tapfolio</span>
+        </div>
+
+        {/* ─── Profile Card ─── */}
         <div className={styles.profileCard}>
+          {/* Share button top-right */}
           <button className={styles.shareBtn} onClick={handleShare} aria-label="Share profile">
             <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25V10.5a2.25 2.25 0 0 0-2.25-2.25H15M9 12l3-3m0 0l3 3m-3-3v12" />
             </svg>
           </button>
 
-          <div className={styles.profileCardInner}>
+          {/* Horizontal profile row: avatar left, info right */}
+          <div className={styles.profileRow}>
             <img
               src={profile.avatar || '/profile_avatar.png'}
               alt={profile.name}
@@ -334,21 +343,20 @@ END:VCARD`;
             />
             <div className={styles.profileInfo}>
               <h1 className={styles.profileName}>{profile.name}</h1>
-              {rolesString && (
-                <span className={styles.profileRoles}>{rolesString}</span>
-              )}
+              {rolesText && <div className={styles.profileRoles}>{rolesText}</div>}
               {locationString && (
-                <span className={styles.profileLocation}>
-                  <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 1 1 9.9 9.9L10 18.9l-4.95-4.95a7 7 0 0 1 0-9.9zM10 11a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" clipRule="evenodd" />
+                <div className={styles.profileLocation}>
+                  <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0z" />
                   </svg>
                   {locationString}
-                </span>
+                </div>
               )}
             </div>
           </div>
 
-          {/* Save Contact — filled */}
+          {/* Save Contact — filled blue */}
           <button className={styles.saveContactBtn} onClick={handleSaveContact}>
             <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0z" />
@@ -357,7 +365,7 @@ END:VCARD`;
           </button>
         </div>
 
-        {/* ── 3-Column Social Grid ── */}
+        {/* ─── Social Grid ─── */}
         <div className={styles.socialGrid}>
           {getSocialsList().map((link: any) => (
             <a
@@ -375,75 +383,76 @@ END:VCARD`;
           ))}
         </div>
 
-        {/* ── About Me Accordion ── */}
+        {/* ─── About Me Accordion ─── */}
         {bioText && (
           <div className={styles.accordionRow}>
-            <button
-              className={styles.accordionHeader}
-              onClick={() => setAboutOpen(!aboutOpen)}
-              aria-expanded={aboutOpen}
-            >
-              <span className={styles.accordionIconLeft}>
-                <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-7 9a7 7 0 1 1 14 0H3z" />
+            <button className={styles.accordionHeader} onClick={() => setAboutOpen(!aboutOpen)}>
+              <div className={styles.accordionIconWrap}>
+                <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0zM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                 </svg>
-              </span>
+              </div>
               <span className={styles.accordionLabel}>About Me</span>
               <span className={`${styles.accordionChevron} ${aboutOpen ? styles.accordionChevronOpen : ''}`}>
                 <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                 </svg>
               </span>
             </button>
-            <div className={`${styles.accordionContent} ${aboutOpen ? styles.accordionContentOpen : ''}`}>
-              <div className={styles.accordionBody}>{bioText}</div>
-            </div>
+            {aboutOpen && (
+              <div className={styles.accordionContent}>
+                <p className={styles.accordionContentText}>{bioText}</p>
+              </div>
+            )}
           </div>
         )}
 
-        {/* ── Contact Accordion ── */}
+        {/* ─── Contact Accordion ─── */}
         {contactItems.length > 0 && (
           <div className={styles.accordionRow}>
-            <button
-              className={styles.accordionHeader}
-              onClick={() => setContactOpen(!contactOpen)}
-              aria-expanded={contactOpen}
-            >
-              <span className={styles.accordionIconLeft}>
-                <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5.05 4.05a7 7 0 1 1 9.9 9.9L10 18.9l-4.95-4.95a7 7 0 0 1 0-9.9zM10 11a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" clipRule="evenodd" />
+            <button className={styles.accordionHeader} onClick={() => setContactOpen(!contactOpen)}>
+              <div className={styles.accordionIconWrap}>
+                <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0z" />
                 </svg>
-              </span>
+              </div>
               <span className={styles.accordionLabel}>Contact</span>
               <span className={`${styles.accordionChevron} ${contactOpen ? styles.accordionChevronOpen : ''}`}>
                 <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                 </svg>
               </span>
             </button>
-            <div className={`${styles.accordionContent} ${contactOpen ? styles.accordionContentOpen : ''}`}>
-              {contactItems.map((item, idx) => (
-                <div key={idx} className={styles.contactItem}>
-                  <span className={styles.contactLabel}>{item.label}</span>
-                  <a href={item.href} target="_blank" rel="noopener noreferrer">{item.val}</a>
-                </div>
-              ))}
-            </div>
+            {contactOpen && (
+              <div className={styles.accordionContent}>
+                <ul className={styles.contactList}>
+                  {contactItems.map((item, idx) => (
+                    <li key={idx} className={styles.contactItem}>
+                      <span className={styles.contactItemLabel}>{item.label}</span>
+                      <a href={item.href} target="_blank" rel="noopener noreferrer" className={styles.contactItemValue}>
+                        {item.val}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         )}
 
         {error && <p className={styles.error}>{error}</p>}
 
-        {/* ── Footer ── */}
+        {/* ─── Footer ─── */}
         <div className={styles.footer}>
           <span className={styles.footerText}>
             Powered by <span>Tapfolio</span>
           </span>
           <a href="/login" className={styles.footerCta}>
             Create your Tapfolio
-            <span className={styles.footerArrow}>
+            <span className={styles.footerCtaArrow}>
               <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
               </svg>
             </span>
           </a>
