@@ -356,6 +356,16 @@ END:VCARD`;
             </div>
           </div>
 
+          {/* Professional Bio */}
+          {bioText && (
+            <p className={styles.profileBio}>{bioText}</p>
+          )}
+
+          {/* Card Tagline */}
+          {profile.tagline && (
+            <div className={styles.profileTagline}>{profile.tagline}</div>
+          )}
+
           {/* Save Contact — filled blue */}
           <button className={styles.saveContactBtn} onClick={handleSaveContact}>
             <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
