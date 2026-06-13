@@ -23,8 +23,9 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        <Link href="/dashboard" className={styles.logo}>
-          Tap<span>folio</span>
+        <Link href="/dashboard" className={styles.logo} style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}>
+          <img src="/vercel.svg" alt="Tapfolio NFC Logo" width="24" height="24" />
+          <span>Tap<span>folio</span></span>
         </Link>
         <nav className={styles.nav}>
           <Link href="/dashboard" className={`${styles.link} ${pathname === '/dashboard' ? styles.active : ''}`}>

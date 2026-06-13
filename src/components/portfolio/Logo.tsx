@@ -7,26 +7,19 @@ export default function Logo(props: LogoProps) {
     <svg
       width="32"
       height="32"
-      viewBox="0 0 40 40"
+      viewBox="0 0 24 24"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className="text-current"
       {...props}
     >
-      <rect width="40" height="40" rx="4" fill="currentColor" fillOpacity="0.05" />
-      <path
-        d="M10 28V12L20 20L30 12V28"
-        stroke="currentColor"
-        strokeWidth="2.5"
-        strokeLinecap="square"
-        strokeLinejoin="miter"
-      />
-      <path
-        d="M20 20V28"
-        stroke="currentColor"
-        strokeWidth="2.5"
-        strokeLinecap="square"
-      />
+      <rect x="2" y="5" width="20" height="14" rx="2" />
+      <path d="M6 8.32a7.43 7.43 0 0 1 0 7.36" />
+      <path d="M9.46 6.21a11.76 11.76 0 0 1 0 11.58" />
+      <path d="M12.91 4.1a15.91 15.91 0 0 1 .01 15.8" />
     </svg>
   );
 }

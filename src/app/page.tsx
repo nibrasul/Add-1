@@ -17,7 +17,8 @@ export default async function Home() {
     <div className={styles.wrapper}>
       <header className={styles.header}>
         <div className={styles.navContainer}>
-          <div className={styles.logo}>
+          <div className={styles.logo} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <img src="/vercel.svg" alt="Tapfolio NFC Logo" width="28" height="28" />
             Tap<span>folio</span>
           </div>
           <div className={styles.navLinks}>
