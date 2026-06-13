@@ -1,91 +1,58 @@
-import Link from 'next/link';
-import { cookies } from 'next/headers';
-import { verifyJWT } from '@/lib/auth';
-import styles from './page.module.css';
+"use client";
 
-export default async function Home() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('pertap_jwt')?.value;
-  let isLoggedIn = false;
+import React, { useState } from "react";
+import LenisScrollProvider from "@/lib/LenisScrollProvider";
+import Navbar from "@/components/navigation/Navbar";
+import Preloader from "@/components/hero/Preloader";
 
-  if (token) {
-    const payload = await verifyJWT(token);
-    if (payload) isLoggedIn = true;
-  }
+// The 12 Sections
+import HeroSection from "@/components/sections/HeroSection";
+import TrustedBySection from "@/components/sections/TrustedBySection";
+import MetricsStrip from "@/components/sections/MetricsStrip";
+import WhyTapfolioSection from "@/components/sections/WhyTapfolioSection";
+import ProductsSection from "@/components/sections/ProductsSection";
+import HowItWorksSection from "@/components/sections/HowItWorksSection";
+import EcosystemBento from "@/components/sections/EcosystemBento";
+import SecuritySection from "@/components/sections/SecuritySection";
+import LiveDemoSection from "@/components/sections/LiveDemoSection";
+import TrustCompanySection from "@/components/sections/TrustCompanySection";
+import ConfiguratorSection from "@/components/sections/ConfiguratorSection";
+import FooterSection from "@/components/sections/FooterSection";
+
+export default function Home() {
+  const [preloaderComplete, setPreloaderComplete] = useState(false);
 
   return (
-    <div className={styles.wrapper}>
-      <header className={styles.header}>
-        <div className={styles.navContainer}>
-          <div className={styles.logo} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <img src="/vercel.svg" alt="Tapfolio NFC Logo" width="28" height="28" />
-            Tap<span>folio</span>
-          </div>
-          <div className={styles.navLinks}>
-            {isLoggedIn ? (
-              <Link href="/dashboard" className={styles.btnNav}>
-                Dashboard
-              </Link>
-            ) : (
-              <Link href="/login" className={styles.btnNav}>
-                Sign In
-              </Link>
-            )}
-          </div>
-        </div>
-      </header>
+    <div className="bg-white min-h-screen font-sans selection:bg-blue-200">
+      <Navbar />
 
-      <main className={styles.main}>
-        <div className={styles.heroSection}>
-          <div className={styles.nfcTag}>⚡ NFC CONNECTIVITY</div>
-          <h1 className={styles.title}>
-            Design is not just what it looks like, <br />
-            <span>it's how it connects.</span>
-          </h1>
-          <p className={styles.subtitle}>
-            Tapfolio lets you build premium, dynamic digital portfolio pages linked to physical NFC cards.
-            Share your work, manage connections, and rank on the leaderboards instantly.
-          </p>
-          <div className={styles.ctas}>
-            {isLoggedIn ? (
-              <Link href="/dashboard" className={styles.primaryCta}>
-                Go to Dashboard
-              </Link>
-            ) : (
-              <>
-                <Link href="/login" className={styles.primaryCta}>
-                  Get Started Free
-                </Link>
-                <Link href="/login?tab=register" className={styles.secondaryCta}>
-                  Create Tapfolio Card
-                </Link>
-              </>
-            )}
-          </div>
-        </div>
+      {!preloaderComplete && (
+        <Preloader onComplete={() => setPreloaderComplete(true)} />
+      )}
 
-        <div className={styles.features}>
-          <div className={`${styles.featureCard} glass-panel`}>
-            <div className={styles.featureIcon}>⚡</div>
-            <h3>Instant NFC Card</h3>
-            <p>Share your credentials and socials with a simple physical tap. Works on all modern smartphones instantly.</p>
-          </div>
-          <div className={`${styles.featureCard} glass-panel`}>
-            <div className={styles.featureIcon}>💎</div>
-            <h3>Premium Rankings</h3>
-            <p>Stand out and verify your status. Upgrade to Premium to join the public rankings.</p>
-          </div>
-          <div className={`${styles.featureCard} glass-panel`}>
-            <div className={styles.featureIcon}>📈</div>
-            <h3>Interactive Logs</h3>
-            <p>Review and audit all connection events, taps, and views with a built-in event registry.</p>
-          </div>
-        </div>
-      </main>
+      {preloaderComplete && (
+        <LenisScrollProvider>
+          <div className="flex flex-col relative w-full overflow-hidden">
 
-      <footer className={styles.footer}>
-        <p>&copy; {new Date().getFullYear()} Tapfolio. Made for builders and creators.</p>
-      </footer>
+            {/* Main Page Flow (12 Sections) */}
+            <main className="w-full flex flex-col">
+              <HeroSection />
+              <TrustedBySection />
+              <MetricsStrip />
+              <WhyTapfolioSection />
+              <ProductsSection />
+              <HowItWorksSection />
+              <EcosystemBento />
+              <SecuritySection />
+              <LiveDemoSection />
+              <TrustCompanySection />
+              <ConfiguratorSection />
+            </main>
+
+            <FooterSection />
+          </div>
+        </LenisScrollProvider>
+      )}
     </div>
   );
 }

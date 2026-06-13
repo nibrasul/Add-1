@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Header from '@/components/Header';
 import LoadingScreen from '@/components/LoadingScreen';
 import ImageCropModal from '@/components/ImageCropModal';
-import styles from './page.module.css';
 
 interface Tag {
   id?: number;
@@ -70,41 +69,41 @@ const getPlatformIcon = (platform: string) => {
   const p = platform.toLowerCase();
   if (p.includes('github')) {
     return (
-      <svg className={styles.socialSvg} fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
       </svg>
     );
   }
   if (p.includes('linkedin')) {
     return (
-      <svg className={styles.socialSvg} fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
       </svg>
     );
   }
   if (p.includes('twitter') || p.includes('x.com')) {
     return (
-      <svg className={styles.socialSvg} fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
       </svg>
     );
   }
   if (p.includes('instagram')) {
     return (
-      <svg className={styles.socialSvg} fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051c-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4.162 4.162 0 110-8.324A4.162 4.162 0 0112 16zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
       </svg>
     );
   }
   if (p.includes('youtube')) {
     return (
-      <svg className={styles.socialSvg} fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path d="M23.498 6.163a3.003 3.003 0 00-2.11-2.113C19.518 3.545 12 3.545 12 3.545s-7.518 0-9.388.505a3.003 3.003 0 00-2.11 2.113C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 002.11 2.113c1.87.505 9.388.505 9.388.505s7.518 0 9.388-.505a3.002 3.002 0 002.11-2.113C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
       </svg>
     );
   }
   return (
-    <svg className={styles.socialSvg} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
     </svg>
   );
@@ -453,528 +452,303 @@ export default function Dashboard() {
   const progressData = calculateProgress();
 
   return (
-    <div className={styles.wrapper}>
+    <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
       <Header />
-      <main className={styles.main}>
-        {success && <div className={styles.toastSuccess}>{success}</div>}
-        {error && <div className={styles.toastError}>{error}</div>}
 
-        {/* Tab Navigation Menu */}
-        <div className={styles.tabNavContainer}>
-          <button
-            onClick={() => setActiveTab('overview')}
-            className={`${styles.tabBtn} ${activeTab === 'overview' ? styles.activeTab : ''}`}
-          >
-            <span className={styles.tabIcon}>📊</span> Overview
-          </button>
-          <button
-            onClick={() => setActiveTab('customizer')}
-            className={`${styles.tabBtn} ${activeTab === 'customizer' ? styles.activeTab : ''}`}
-          >
-            <span className={styles.tabIcon}>🪪</span> Customize Card
-          </button>
-          <button
-            onClick={() => setActiveTab('sharing')}
-            className={`${styles.tabBtn} ${activeTab === 'sharing' ? styles.activeTab : ''}`}
-          >
-            <span className={styles.tabIcon}>🔒</span> Privacy & Sharing
-          </button>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+          <div>
+            <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">Dashboard</h1>
+            <p className="text-gray-500 mt-1">Manage your digital presence and TapFolio settings.</p>
+          </div>
+          {publicLink && (
+            <a 
+              href={publicLink} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-4 py-2 bg-white border border-gray-200 shadow-sm rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
+            >
+              View Public Profile
+              <svg className="w-4 h-4 ml-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+            </a>
+          )}
         </div>
 
-        {/* ==================== TAB 1: OVERVIEW ==================== */}
-        {activeTab === 'overview' && (
-          <div className={styles.tabContentFade}>
+        {error && <div className="p-4 mb-6 bg-red-50 border border-red-200 text-red-600 rounded-xl text-sm font-medium">{error}</div>}
+        {success && <div className="p-4 mb-6 bg-green-50 border border-green-200 text-green-700 rounded-xl text-sm font-medium">{success}</div>}
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/* LEFT COLUMN - MAIN CONTROLS */}
+          <div className="lg:col-span-8 flex flex-col gap-6">
             
-            {/* Top Metric Cards Panel */}
-            <div className={styles.metricGrid}>
-              
-              {/* Score / Checklist Widget */}
-              <div className={`${styles.card} ${styles.scoreMetricCard} glass-panel`}>
-                <div className={styles.metricCardHeader}>
-                  <div>
-                    <h3 className={styles.metricTitle}>Profile Completeness</h3>
-                    <p className={styles.metricSubtitle}>Complete steps to maximize outreach</p>
-                  </div>
-                  <div className={styles.metricScoreBadge}>{progressData.percentage}%</div>
-                </div>
-                <div className={styles.metricProgressBg}>
-                  <div className={styles.metricProgressFill} style={{ width: `${progressData.percentage}%` }} />
-                </div>
-                
-                {/* Horizontal Checklist summary */}
-                <div className={styles.quickChecklist}>
-                  {progressData.items.map((item) => (
-                    <div key={item.id} className={`${styles.quickCheckItem} ${item.completed ? styles.quickCheckDone : ''}`}>
-                      <span className={styles.quickCheckDot}>{item.completed ? '✓' : '○'}</span>
-                      <span className={styles.quickCheckLabel}>{item.label}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Share NFC Card Widget */}
-              <div className={`${styles.card} glass-panel`}>
-                <h3 className={styles.metricTitle}>NFC Smart Link</h3>
-                <p className={styles.metricSubtitle}>Link programmable to physical NFC tags</p>
-                
-                <div className={styles.shareInputGroup}>
-                  <input readOnly value={publicLink} className={styles.shareUrlField} />
-                  <button
-                    onClick={() => {
-                      navigator.clipboard.writeText(publicLink);
-                      setSuccess('Link copied to clipboard!');
-                      setTimeout(() => setSuccess(''), 3000);
-                    }}
-                    className={styles.shareCopyBtn}
-                  >
-                    Copy Link
-                  </button>
-                </div>
-                
-                <a href={publicLink} target="_blank" className={styles.viewLiveBtn}>
-                  View Live Profile Card →
-                </a>
-              </div>
-
-              {/* Plan Subscription Widget */}
-              <div className={`${styles.card} ${styles.subscriptionMetricCard} glass-panel`}>
-                {isPremium ? (
-                  <div className={styles.subActiveContent}>
-                    <div className={styles.goldBannerBadge}>💎 PREMIUM MEMBER</div>
-                    <h3 className={styles.subActiveTitle}>Account Status: Pro</h3>
-                    <p className={styles.subActiveDesc}>Your card is eligible for the global public leaderboard listings.</p>
-                  </div>
-                ) : (
-                  <div className={styles.subInactiveContent}>
-                    <h3 className={styles.subTitle}>Tapfolio Premium</h3>
-                    <p className={styles.subDesc}>List your card on the global network rank leaderboards.</p>
-                    <button onClick={() => setShowPaymentModal(true)} className={styles.upgradeMetricBtn}>
-                      Upgrade for $9.99
-                    </button>
-                  </div>
-                )}
-              </div>
-
+            {/* SEGMENTED TABS */}
+            <div className="flex p-1 bg-gray-200/60 rounded-xl w-full sm:w-fit overflow-x-auto">
+              <button 
+                onClick={() => setActiveTab('overview')}
+                className={`flex-1 sm:flex-none px-6 py-2.5 text-sm font-semibold rounded-lg transition-all whitespace-nowrap ${activeTab === 'overview' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+              >
+                Overview
+              </button>
+              <button 
+                onClick={() => setActiveTab('customizer')}
+                className={`flex-1 sm:flex-none px-6 py-2.5 text-sm font-semibold rounded-lg transition-all whitespace-nowrap ${activeTab === 'customizer' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+              >
+                Customize Profile
+              </button>
+              <button 
+                onClick={() => setActiveTab('sharing')}
+                className={`flex-1 sm:flex-none px-6 py-2.5 text-sm font-semibold rounded-lg transition-all whitespace-nowrap ${activeTab === 'sharing' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+              >
+                Privacy & Sharing
+              </button>
             </div>
 
-            {/* Main Overview Columns */}
-            <div className={styles.overviewDashboardGrid}>
-              
-              {/* Left Column: Live Card Preview Mockup */}
-              <div className={styles.cardPreviewColumn}>
-                <h3 className={styles.gridSectionTitle}>Live Card Mockup</h3>
-                <div className={styles.mockCardWrapper}>
-                  {/* Holographic design elements and layout mirroring ConnectClientPage */}
-                  <div className={styles.mockCardTopBar}>
-                    <div className={styles.mockNfcChip}>
-                      <div className={styles.mockNfcInner}></div>
-                    </div>
-                    <div className={styles.mockLogo}>Tap<span>folio</span></div>
+            {/* OVERVIEW TAB */}
+            {activeTab === 'overview' && (
+              <div className="flex flex-col gap-6">
+                
+                {/* Metric Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col gap-2">
+                    <span className="text-gray-500 font-medium text-sm">Profile Views</span>
+                    <span className="text-3xl font-extrabold text-gray-900">{profile?.tapCount || 0}</span>
                   </div>
-                  
-                  <div className={styles.mockAvatarArea}>
-                    <img src={avatar || '/profile_avatar.png'} alt="Avatar" className={styles.mockAvatar} />
-                    <div className={styles.mockAvatarRing}></div>
-                    {isPremium && <div className={styles.mockProBadge}>💎 PRO</div>}
-                  </div>
-
-                  <h2 className={styles.mockName}>{name || 'Your Name'}</h2>
-                  <p className={styles.mockTagline}>{tagline || 'Your tagline goes here...'}</p>
-                  {bio && <p className={styles.mockBio}>{bio}</p>}
-
-                  {/* Mock Tags */}
-                  {tags.length > 0 && (
-                    <div className={styles.mockTagsContainer}>
-                      {tags.map((t, idx) => (
-                        <span key={idx} className={t.type === 'location' ? styles.mockTagLoc : styles.mockTagRole}>
-                          {t.type === 'location' ? '📍' : '⚡'} {t.text}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Mock Stats */}
-                  <div className={styles.mockStatsRow}>
-                    <div className={styles.mockStatItem}>
-                      <span className={styles.mockStatVal}>{profile?.diamonds || '0'}</span>
-                      <span className={styles.mockStatLabel}>Points</span>
-                    </div>
-                    <div className={styles.mockStatDivider}></div>
-                    <div className={styles.mockStatItem}>
-                      <span className={styles.mockStatVal}>{profile?.user?.connectionCount ?? 0}</span>
-                      <span className={styles.mockStatLabel}>Connections</span>
-                    </div>
-                    <div className={styles.mockStatDivider}></div>
-                    <div className={styles.mockStatItem}>
-                      <span className={styles.mockStatVal}>{profile?.tapCount || '0'}</span>
-                      <span className={styles.mockStatLabel}>Taps</span>
+                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col gap-2">
+                    <span className="text-gray-500 font-medium text-sm">TapFolio Score</span>
+                    <div className="flex items-end gap-2">
+                      <span className="text-3xl font-extrabold text-gray-900">{score}</span>
+                      <span className="text-gray-400 font-medium text-sm mb-1">/ 100</span>
                     </div>
                   </div>
-
-                  {/* Mock Social Link Tree */}
-                  {socials.length > 0 && (
-                    <div className={styles.mockSocialSection}>
-                      <span className={styles.mockSocialTitle}>Connected Links ({socials.length})</span>
-                      <div className={styles.mockSocialGrid}>
-                        {socials.slice(0, 3).map((s, idx) => (
-                          <div key={idx} className={styles.mockSocialCard} style={{ borderColor: s.color + '44' }}>
-                            <div className={styles.mockSocialLeft}>
-                              <div className={styles.mockSocialIconCircle} style={{ color: s.color, background: s.color + '15' }}>
-                                {getPlatformIcon(s.platform)}
-                              </div>
-                              <div className={styles.mockSocialDetails}>
-                                <span className={styles.mockPlatformName}>{s.platform}</span>
-                                <span className={styles.mockPlatformHandle}>{s.handle}</span>
-                              </div>
-                            </div>
-                            <span className={styles.mockArrow}>↗</span>
-                          </div>
-                        ))}
-                        {socials.length > 3 && (
-                          <div className={styles.mockSocialMore}>+ {socials.length - 3} more links</div>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                  
-                  <div className={styles.mockBtn}>Connect with me</div>
                 </div>
-              </div>
 
-              {/* Right Column: Recent Activity Feed */}
-              <div className={`${styles.card} glass-panel`}>
-                <h3 className={styles.sectionTitle}>Recent Network Logs</h3>
-                {historyEvents.length === 0 ? (
-                  <div className={styles.emptyWelcomeState}>
-                    <div className={styles.emptyIcon}>👋</div>
-                    <h3>Your profile is ready!</h3>
-                    <p>When users tap your card or send connection requests, logs will stream here.</p>
+                {/* Setup Checklist */}
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                  <div className="px-6 py-5 border-b border-gray-100">
+                    <h3 className="text-lg font-bold text-gray-900">Setup Progress</h3>
+                    <div className="mt-3 h-2 w-full bg-gray-100 rounded-full overflow-hidden">
+                      <div className="h-full bg-blue-600 rounded-full transition-all duration-500" style={{ width: `${progressData.percentage}%` }} />
+                    </div>
+                    <p className="mt-2 text-sm text-gray-500 font-medium">{progressData.percentage}% Completed</p>
                   </div>
-                ) : (
-                  <div className={styles.recentLogsList}>
-                    {historyEvents.slice(0, 6).map((event) => (
-                      <div key={event.id} className={styles.logItem}>
-                        <span className={styles.logIcon}>{event.icon || '🔗'}</span>
-                        <div className={styles.logInfo}>
-                          <strong>{event.action}</strong>
-                          <p>{event.details}</p>
-                          <span className={styles.logTime}>
-                            {new Date(event.createdAt).toLocaleDateString()}
-                          </span>
+                  <div className="divide-y divide-gray-100">
+                    {progressData.items.map((item, i) => (
+                      <div key={i} className="px-6 py-4 flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className={`flex items-center justify-center w-6 h-6 rounded-full border ${item.completed ? 'bg-green-100 border-green-200 text-green-600' : 'bg-gray-50 border-gray-200 text-gray-300'}`}>
+                            {item.completed ? (
+                              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" /></svg>
+                            ) : (
+                              <div className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+                            )}
+                          </div>
+                          <div>
+                            <p className={`font-semibold text-sm ${item.completed ? 'text-gray-900' : 'text-gray-600'}`}>{item.label}</p>
+                            <p className="text-xs text-gray-400 mt-0.5">{item.desc}</p>
+                          </div>
+                        </div>
+                        <span className="text-xs font-bold text-gray-400">+{item.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Recent Logs */}
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                  <div className="px-6 py-5 border-b border-gray-100">
+                    <h3 className="text-lg font-bold text-gray-900">Recent Activity</h3>
+                  </div>
+                  <div className="divide-y divide-gray-100">
+                    {historyEvents.slice(0, 3).map((event, i) => (
+                      <div key={i} className="px-6 py-4 flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
+                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-gray-900">{event.action}</p>
+                          <p className="text-xs text-gray-400">{new Date(event.createdAt).toLocaleDateString()}</p>
                         </div>
                       </div>
                     ))}
-                    <Link href="/history" className={styles.viewAllLogs}>
-                      View complete logs history →
-                    </Link>
+                    {historyEvents.length === 0 && (
+                      <div className="px-6 py-8 text-center text-gray-500 text-sm">No activity recorded yet.</div>
+                    )}
                   </div>
-                )}
-              </div>
-
-            </div>
-
-          </div>
-        )}
-
-        {/* ==================== TAB 2: CUSTOMIZER ==================== */}
-        {activeTab === 'customizer' && (
-          <div className={`${styles.tabContentFade} ${styles.customizerGrid}`}>
-            
-            {/* Left side: Basic info form details */}
-            <div className={`${styles.card} glass-panel`}>
-              <h3 className={styles.sectionTitle}>General Card Customizer</h3>
-              
-              <div className={styles.avatarContainer}>
-                <div className={styles.avatarPreviewWrapper}>
-                  <img src={avatar || '/profile_avatar.png'} alt="Avatar" className={styles.avatarPreview} />
-                  <div className={styles.avatarPreviewRing}></div>
                 </div>
-                <div>
-                  <label htmlFor="avatar-file" className={styles.uploadBtn}>
-                    Upload New Photo
-                    <input
-                      id="avatar-file"
-                      type="file"
-                      accept="image/*"
-                      onChange={handleAvatarChange}
-                      className={styles.fileInput}
-                    />
-                  </label>
-                  <p className={styles.uploadHint}>SVG, PNG, or JPG (max. 2MB)</p>
-                </div>
+
               </div>
+            )}
 
-              <div className={styles.formGroup}>
-                <label>Display Name</label>
-                <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Jane Doe" />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label>Card Tagline</label>
-                <input type="text" value={tagline} onChange={(e) => setTagline(e.target.value)} placeholder="e.g. Full Stack Engineer" />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label>Professional Bio</label>
-                <textarea rows={4} value={bio} onChange={(e) => setBio(e.target.value)} placeholder="Describe yourself, your work, or networking goals..." />
-              </div>
-
-              <button onClick={handleSaveProfile} disabled={saving} className={styles.saveBtn}>
-                {saving ? 'Saving Changes...' : 'Save General Details'}
-              </button>
-            </div>
-
-            {/* Right side: Socials and Skills editor */}
-            <div className={styles.midCol}>
-              
-              {/* SKILLS & LOCATIONS EDITOR */}
-              <div className={`${styles.card} glass-panel`}>
-                <h3 className={styles.sectionTitle}>Skills & Locations</h3>
-                <p className={styles.cardDesc}>Select tags to represent your specialization and location</p>
-                
-                <form onSubmit={handleAddTag} className={styles.tagFormRow}>
-                  <input
-                    type="text"
-                    placeholder="e.g. Typescript, London..."
-                    value={newTagText}
-                    onChange={(e) => setNewTagText(e.target.value)}
-                    className={styles.tagInputField}
-                  />
-                  <select value={newTagType} onChange={(e) => setNewTagType(e.target.value)} className={styles.tagSelectField}>
-                    <option value="role">Role / Skill</option>
-                    <option value="location">Location</option>
-                  </select>
-                  <button type="submit" className={styles.tagAddBtn}>Add</button>
-                </form>
-
-                <div className={styles.tagsContainer}>
-                  {tags.map((t, idx) => (
-                    <span
-                      key={idx}
-                      className={`${styles.tagItem} ${t.type === 'location' ? styles.tagLoc : styles.tagRole}`}
-                    >
-                      {t.type === 'location' ? '📍' : '⚡'} {t.text}
-                      <button type="button" onClick={() => handleRemoveTag(idx)} className={styles.tagDelete}>×</button>
-                    </span>
-                  ))}
-                </div>
-                <button onClick={handleSaveProfile} disabled={saving} className={styles.saveBtnSecondary}>
-                  Save Tags
-                </button>
-              </div>
-
-              {/* SOCIAL PROFILES EDITOR */}
-              <div className={`${styles.card} glass-panel`}>
-                <h3 className={styles.sectionTitle}>Social Profiles & Link Tree</h3>
-                <p className={styles.cardDesc}>Add external links to build your contact profile hub</p>
-                
-                <form onSubmit={handleAddSocial} className={styles.socialForm}>
-                  <div className={styles.formRow}>
-                    <select value={newPlatform} onChange={(e) => setNewPlatform(e.target.value)} className={styles.socialSelect}>
-                      <option value="GitHub">GitHub</option>
-                      <option value="LinkedIn">LinkedIn</option>
-                      <option value="Twitter">Twitter / X</option>
-                      <option value="Instagram">Instagram</option>
-                      <option value="YouTube">YouTube</option>
-                      <option value="Website">Personal Website</option>
-                    </select>
-                    <input
-                      type="text"
-                      placeholder="Handle/Username"
-                      value={newHandle}
-                      onChange={(e) => setNewHandle(e.target.value)}
-                      className={styles.socialInput}
-                    />
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="Full Link URL (e.g. https://github.com/name)"
-                    value={newUrl}
-                    onChange={(e) => setNewUrl(e.target.value)}
-                    className={styles.socialInput}
-                  />
-                  <button type="submit" className={styles.addButton}>Add New Social Profile</button>
-                </form>
-
-                <div className={styles.socialList}>
-                  {socials.map((s, idx) => (
-                    <div key={idx} className={styles.socialRow} style={{ borderColor: s.color + '44' }}>
-                      <div className={styles.socialRowInfo}>
-                        <div className={styles.socialLogoBadge} style={{ color: s.color, background: s.color + '15' }}>
-                          {getPlatformIcon(s.platform)}
-                        </div>
-                        <div>
-                          <strong>{s.platform}</strong>
-                          <span className={styles.socialRowHandle}>{s.handle}</span>
-                        </div>
+            {/* CUSTOMIZER TAB */}
+            {activeTab === 'customizer' && (
+              <div className="flex flex-col gap-6">
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
+                  <h3 className="text-xl font-bold text-gray-900 mb-6">Profile Details</h3>
+                  
+                  <div className="flex flex-col sm:flex-row gap-8 mb-8">
+                    <div className="flex flex-col items-center gap-3">
+                      <div className="relative w-28 h-28 rounded-full border-4 border-white shadow-md overflow-hidden bg-gray-100">
+                        {avatar ? (
+                          <img src={avatar} alt="Avatar" className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-gray-400">
+                            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                          </div>
+                        )}
                       </div>
-                      <button type="button" onClick={() => handleRemoveSocial(idx)} className={styles.socialDelete}>
-                        Delete
-                      </button>
+                      <label className="cursor-pointer inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                        Change Photo
+                        <input type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
+                      </label>
+                    </div>
+
+                    <div className="flex-1 flex flex-col gap-4">
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">Display Name</label>
+                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all text-gray-900 font-medium" placeholder="John Doe" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">Professional Tagline</label>
+                        <input type="text" value={tagline} onChange={(e) => setTagline(e.target.value)} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all text-gray-900 font-medium" placeholder="Founder & CEO" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mb-8">
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">Biography</label>
+                    <textarea value={bio} onChange={(e) => setBio(e.target.value)} rows={4} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all text-gray-900 font-medium resize-none" placeholder="Tell people about yourself..." />
+                  </div>
+
+                  {/* Social Links */}
+                  <div className="mb-8">
+                    <h4 className="text-lg font-bold text-gray-900 mb-4">Social Links</h4>
+                    <div className="space-y-3 mb-4">
+                      {socials.map((social, idx) => (
+                        <div key={idx} className="flex items-center justify-between p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded bg-white shadow-sm flex items-center justify-center text-gray-700">
+                              {getPlatformIcon(social.platform)}
+                            </div>
+                            <div>
+                              <p className="text-sm font-bold text-gray-900">{social.platform}</p>
+                              <p className="text-xs text-gray-500">{social.handle}</p>
+                            </div>
+                          </div>
+                          <button onClick={() => handleRemoveSocial(idx)} className="text-red-500 hover:bg-red-50 p-2 rounded-md transition-colors">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                    <form onSubmit={handleAddSocial} className="flex flex-col sm:flex-row gap-3">
+                      <select value={newPlatform} onChange={(e) => setNewPlatform(e.target.value)} className="px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 font-medium focus:outline-none focus:border-blue-500">
+                        <option>LinkedIn</option>
+                        <option>Twitter</option>
+                        <option>GitHub</option>
+                        <option>Instagram</option>
+                        <option>Website</option>
+                      </select>
+                      <input type="text" placeholder="Handle / Label" value={newHandle} onChange={(e) => setNewHandle(e.target.value)} className="flex-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 font-medium focus:outline-none focus:border-blue-500" />
+                      <input type="text" placeholder="URL (e.g. linkedin.com/in/...)" value={newUrl} onChange={(e) => setNewUrl(e.target.value)} className="flex-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 font-medium focus:outline-none focus:border-blue-500" />
+                      <button type="submit" className="px-6 py-2.5 bg-gray-900 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors">Add</button>
+                    </form>
+                  </div>
+
+                  <div className="pt-6 border-t border-gray-100 flex justify-end">
+                    <button onClick={handleSaveProfile} disabled={saving} className="px-8 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 shadow-sm shadow-blue-200 transition-all disabled:opacity-50">
+                      {saving ? 'Saving...' : 'Save Profile Details'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* PRIVACY TAB */}
+            {activeTab === 'sharing' && (
+              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Information Sharing</h3>
+                <p className="text-gray-500 text-sm mb-8">Control exactly what information is requested and shared when someone taps your card.</p>
+                
+                <div className="space-y-4 mb-8">
+                  {[
+                    { id: 'shareName', label: 'Share Name & Photo', desc: 'Display your basic identity on the connection screen.' },
+                    { id: 'shareEmail', label: 'Share Email Address', desc: 'Allow contacts to save your primary email.' },
+                    { id: 'sharePhone', label: 'Share Phone Number', desc: 'Allow contacts to call or text you directly.' },
+                    { id: 'shareWhatsapp', label: 'Share WhatsApp', desc: 'Include a direct WhatsApp messaging link.' },
+                    { id: 'shareLocation', label: 'Share Office Location', desc: 'Display your company address or city.' },
+                  ].map((setting) => (
+                    <div key={setting.id} className="flex items-center justify-between p-4 border border-gray-100 rounded-xl bg-gray-50">
+                      <div>
+                        <p className="font-semibold text-gray-900">{setting.label}</p>
+                        <p className="text-xs text-gray-500 mt-1">{setting.desc}</p>
+                      </div>
+                      <label className="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" className="sr-only peer" checked={sharingSettings[setting.id as keyof SharingSettings]} onChange={(e) => setSharingSettings({ ...sharingSettings, [setting.id]: e.target.checked })} />
+                        <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                      </label>
                     </div>
                   ))}
                 </div>
-                <button onClick={handleSaveProfile} disabled={saving} className={styles.saveBtnSecondary}>
-                  Save Social Profiles
-                </button>
-              </div>
 
-            </div>
+                <div className="pt-6 border-t border-gray-100 flex justify-end">
+                  <button onClick={handleSaveSharingSettings} disabled={savingSharing} className="px-8 py-3 bg-gray-900 text-white font-bold rounded-xl hover:bg-gray-800 shadow-sm transition-all disabled:opacity-50">
+                    {savingSharing ? 'Saving...' : 'Save Privacy Settings'}
+                  </button>
+                </div>
+              </div>
+            )}
 
           </div>
-        )}
 
-        {/* ==================== TAB 3: PRIVACY & SHARING ==================== */}
-        {activeTab === 'sharing' && (
-          <div className={styles.tabContentFade}>
-            <div className={`${styles.card} ${styles.sharingSettingsCard} glass-panel`}>
-              <h3 className={styles.sectionTitle}>Privacy & Auto-Exchange Settings</h3>
-              <p className={styles.cardDesc}>
-                Define which contact details are shared automatically when you accept or finalize a connection request with another professional.
-              </p>
-
-              <div className={styles.sharingTogglesList}>
+          {/* RIGHT COLUMN - LIVE PREVIEW */}
+          <div className="lg:col-span-4 relative">
+            <div className="sticky top-28 bg-white rounded-[2rem] shadow-xl border-[6px] border-gray-100 overflow-hidden w-full max-w-[320px] mx-auto min-h-[600px] flex flex-col">
+              {/* Dynamic Theme Background */}
+              <div className="h-32 bg-gradient-to-br from-blue-600 to-indigo-800 relative">
+                 <div className="absolute top-4 right-4 bg-black/20 backdrop-blur-sm px-3 py-1 rounded-full text-white text-xs font-bold flex items-center gap-1">
+                   <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" /> Live Preview
+                 </div>
+              </div>
+              
+              <div className="px-6 flex-1 -mt-12 relative flex flex-col items-center">
+                <div className="w-24 h-24 rounded-full border-4 border-white shadow-md bg-white overflow-hidden mb-4">
+                  {avatar ? (
+                    <img src={avatar} alt="Avatar" className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">
+                      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                    </div>
+                  )}
+                </div>
                 
-                {/* Share Name */}
-                <div className={styles.toggleRow}>
-                  <div className={styles.toggleInfo}>
-                    <strong>Share Full Name</strong>
-                    <p>Show your real name to accepted connections.</p>
+                <h2 className="text-xl font-bold text-gray-900 text-center">{name || 'Your Name'}</h2>
+                <p className="text-sm font-medium text-blue-600 text-center mb-4">{tagline || 'Your Tagline'}</p>
+                
+                <p className="text-xs text-gray-500 text-center leading-relaxed mb-6">{bio || 'Your bio will appear here. Tell people about what you do and how you can help them.'}</p>
+                
+                {socials.length > 0 && (
+                  <div className="w-full grid grid-cols-5 gap-2 mb-6">
+                    {socials.map((s, i) => (
+                      <div key={i} className="aspect-square bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer" style={{ color: s.color }}>
+                        {getPlatformIcon(s.platform)}
+                      </div>
+                    ))}
                   </div>
-                  <label className={styles.switch}>
-                    <input
-                      type="checkbox"
-                      checked={sharingSettings.shareName}
-                      onChange={(e) => setSharingSettings({ ...sharingSettings, shareName: e.target.checked })}
-                    />
-                    <span className={styles.slider}></span>
-                  </label>
+                )}
+                
+                <div className="mt-auto w-full pb-6">
+                  <button className="w-full py-3 bg-gray-900 text-white rounded-xl font-bold text-sm shadow-md">
+                    Save Contact
+                  </button>
                 </div>
-
-                {/* Share Email */}
-                <div className={styles.toggleRow}>
-                  <div className={styles.toggleInfo}>
-                    <strong>Share Email Address</strong>
-                    <p>Allows connections to email you directly.</p>
-                  </div>
-                  <label className={styles.switch}>
-                    <input
-                      type="checkbox"
-                      checked={sharingSettings.shareEmail}
-                      onChange={(e) => setSharingSettings({ ...sharingSettings, shareEmail: e.target.checked })}
-                    />
-                    <span className={styles.slider}></span>
-                  </label>
-                </div>
-
-                {/* Share Phone */}
-                <div className={styles.toggleRow}>
-                  <div className={styles.toggleInfo}>
-                    <strong>Share Phone Number</strong>
-                    <p>Provide contact number to connections.</p>
-                  </div>
-                  <label className={styles.switch}>
-                    <input
-                      type="checkbox"
-                      checked={sharingSettings.sharePhone}
-                      onChange={(e) => setSharingSettings({ ...sharingSettings, sharePhone: e.target.checked })}
-                    />
-                    <span className={styles.slider}></span>
-                  </label>
-                </div>
-
-                {/* Share Whatsapp */}
-                <div className={styles.toggleRow}>
-                  <div className={styles.toggleInfo}>
-                    <strong>Share WhatsApp Chat Link</strong>
-                    <p>Enable direct chat via WhatsApp redirect.</p>
-                  </div>
-                  <label className={styles.switch}>
-                    <input
-                      type="checkbox"
-                      checked={sharingSettings.shareWhatsapp}
-                      onChange={(e) => setSharingSettings({ ...sharingSettings, shareWhatsapp: e.target.checked })}
-                    />
-                    <span className={styles.slider}></span>
-                  </label>
-                </div>
-
-                {/* Share Location */}
-                <div className={styles.toggleRow}>
-                  <div className={styles.toggleInfo}>
-                    <strong>Share Location</strong>
-                    <p>Show location tags in connection lists.</p>
-                  </div>
-                  <label className={styles.switch}>
-                    <input
-                      type="checkbox"
-                      checked={sharingSettings.shareLocation}
-                      onChange={(e) => setSharingSettings({ ...sharingSettings, shareLocation: e.target.checked })}
-                    />
-                    <span className={styles.slider}></span>
-                  </label>
-                </div>
-
               </div>
-
-              <button
-                onClick={handleSaveSharingSettings}
-                disabled={savingSharing}
-                className={styles.saveBtn}
-              >
-                {savingSharing ? 'Saving Settings...' : 'Save Sharing Preferences'}
-              </button>
             </div>
           </div>
-        )}
 
+        </div>
       </main>
 
-      {/* STRIPE-STYLE PAYMENT MODAL */}
-      {showPaymentModal && (
-        <div className={styles.modalOverlay}>
-          <div className={`${styles.modalContent} glass-panel`}>
-            <h2>Tapfolio Checkout</h2>
-            <p className={styles.modalSub}>Upgrade profile to Premium membership.</p>
-            <div className={styles.stripeForm}>
-              <div className={styles.stripeRow}>
-                <label>Card Number</label>
-                <input type="text" readOnly value="4242 •••• •••• 4242" className={styles.stripeInputReadOnly} />
-              </div>
-              <div className={styles.stripeGrid}>
-                <div>
-                  <label>Expires</label>
-                  <input type="text" readOnly value="12/28" className={styles.stripeInputReadOnly} />
-                </div>
-                <div>
-                  <label>CVC</label>
-                  <input type="text" readOnly value="***" className={styles.stripeInputReadOnly} />
-                </div>
-              </div>
-              <div className={styles.modalCtaRow}>
-                <button
-                  type="button"
-                  onClick={() => setShowPaymentModal(false)}
-                  disabled={paymentProcessing}
-                  className={styles.modalCancel}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  onClick={handleUpgradePayment}
-                  disabled={paymentProcessing}
-                  className={styles.modalSubmit}
-                >
-                  {paymentProcessing ? 'Processing Payment...' : 'Pay $9.99'}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ─── Image Crop Modal ─── */}
       {showCropModal && cropImageSrc && (
         <ImageCropModal
           imageSrc={cropImageSrc}

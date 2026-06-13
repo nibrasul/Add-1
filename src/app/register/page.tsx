@@ -175,11 +175,9 @@ export default function RegisterPage() {
       setUsername(data.user.username);
       
       setSuccess('Registered successfully with Google!');
-      setTimeout(() => {
-        setStep(3); // Advance directly to Success Moment
-        setSuccess('');
-        setLoading(false);
-      }, 800);
+      setStep(3); // Advance directly to Success Moment
+      setSuccess('');
+      setLoading(false);
     } catch (err: any) {
       setError(err.message || 'Google Auth failed.');
       setLoading(false);
@@ -353,9 +351,7 @@ export default function RegisterPage() {
       }
 
       setSuccess('Setup complete!');
-      setTimeout(() => {
-        resolveRedirect();
-      }, 800);
+      resolveRedirect();
     } catch (err: any) {
       setError(err.message || 'Something went wrong.');
       setLoading(false);

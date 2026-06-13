@@ -108,9 +108,7 @@ function LoginFormContent() {
       }
 
       setMessage('Success! Redirecting...');
-      setTimeout(() => {
-        resolveRedirect();
-      }, 1000);
+      resolveRedirect();
     } catch (err: any) {
       setError(err.message || 'Something went wrong. Please try again.');
       setLoading(false);
@@ -143,9 +141,7 @@ function LoginFormContent() {
       }
 
       setMessage('Google Login Successful! Redirecting...');
-      setTimeout(() => {
-        resolveRedirect();
-      }, 1000);
+      resolveRedirect();
     } catch (err: any) {
       setError(err.message || 'Google Sign-In failed.');
       setGoogleLoading(false);
