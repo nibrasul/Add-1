@@ -43,6 +43,13 @@ const projects: Project[] = [
   },
 ];
 
+const getProjectImage = (id: string) => {
+  if (id === "01") return "/tapfolio.png";
+  if (id === "02") return "/jarvis.png";
+  if (id === "03") return "/builder_suite.png";
+  return "";
+};
+
 function ProjectChapter({ project }: { project: Project }) {
   const chapterRef = useRef<HTMLDivElement>(null);
   
@@ -66,16 +73,18 @@ function ProjectChapter({ project }: { project: Project }) {
         className="w-full max-w-[1600px] mx-auto px-6 md:px-16 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center relative z-10"
       >
         {/* Left: Huge Visual */}
-        <div className="lg:col-span-7 relative aspect-[4/3] w-full overflow-hidden group">
+        <div className="lg:col-span-7 relative aspect-[4/3] w-full overflow-hidden group border border-[#F5F5F5]/10 rounded-2xl">
           <motion.div 
             style={{ y, scale: imageScale }}
-            className="absolute inset-0 bg-[#111111] border border-[#F5F5F5]/10 flex items-center justify-center"
+            className="absolute inset-0 bg-[#111111] flex items-center justify-center"
           >
+            <motion.img 
+              src={getProjectImage(project.id)}
+              alt={project.name}
+              className="w-full h-full object-cover opacity-80"
+            />
             {/* Very subtle image drift on hover handled by CSS group-hover */}
             <div className="absolute inset-0 bg-gradient-to-tr from-[#0A0A0A] to-transparent opacity-60 z-10" />
-            <div className="text-[#8A8A8A] font-inter text-sm tracking-widest uppercase relative z-20 transition-transform duration-[1.4s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105">
-              [ Visual Placeholder for {project.name} ]
-            </div>
           </motion.div>
         </div>
 

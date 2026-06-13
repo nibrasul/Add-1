@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import ProfilePhoto from "./ProfilePhoto";
 
 export default function AboutSection() {
   const containerRef = useRef<HTMLElement>(null);
@@ -25,17 +26,31 @@ export default function AboutSection() {
     >
       <div className="max-w-[1400px] w-full mx-auto relative z-10">
         
-        {/* Main Statement */}
-        <div className="max-w-4xl space-y-12">
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-20%" }}
-            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl md:text-6xl lg:text-7xl font-space-grotesk font-medium text-[#F5F5F5] leading-tight"
-          >
-            I build products that <span className="text-[#8A8A8A]">connect people</span>, <span className="text-[#8A8A8A]">solve problems</span>, and create <span className="text-[#F5F5F5]">lasting experiences</span>.
-          </motion.p>
+        {/* Two Column Grid for Statement & Photo */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
+          
+          {/* Left Column: Main Statement */}
+          <div className="lg:col-span-7 space-y-12">
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-20%" }}
+              transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+              className="text-4xl md:text-6xl lg:text-7xl font-space-grotesk font-medium text-[#F5F5F5] leading-tight"
+            >
+              I build products that <span className="text-[#8A8A8A]">connect people</span>, <span className="text-[#8A8A8A]">solve problems</span>, and create <span className="text-[#F5F5F5]">lasting experiences</span>.
+            </motion.p>
+          </div>
+
+          {/* Right Column: Profile Photo */}
+          <div className="lg:col-span-5 flex justify-center lg:justify-end">
+            <ProfilePhoto 
+              src="/nibras.png" 
+              alt="Mohammed Nibrasul Haqq"
+              className="w-full max-w-[380px] aspect-[4/5] md:aspect-[3/4]"
+            />
+          </div>
+
         </div>
 
         {/* Scroll Revealed Roles */}
